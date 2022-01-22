@@ -51,3 +51,25 @@ class StudentEndpoints():
 
         name = session['user']
         return render_template('sQuestions.html', name=name, roles=session['roles'])
+    
+    @staticmethod
+    def get_sQuestionsCompleted(auth_service: AuthService) -> Union[Response, Text]:
+        # Redirect the user if it is not login or if he has not the right role
+        if not WebAuth.test_token(auth_service):
+            return redirect(url_for('get_login'))
+        if Role.Teacher.name not in session['roles']:
+            return redirect(url_for('get_home'))
+
+        name = session['user']
+        return render_template('sQuestionsCompleted.html', name=name, roles=session['roles'])
+    
+    @staticmethod
+    def get_sQuestionsIncompleted(auth_service: AuthService) -> Union[Response, Text]:
+        # Redirect the user if it is not login or if he has not the right role
+        if not WebAuth.test_token(auth_service):
+            return redirect(url_for('get_login'))
+        if Role.Teacher.name not in session['roles']:
+            return redirect(url_for('get_home'))
+
+        name = session['user']
+        return render_template('sQuestionsIncompleted.html', name=name, roles=session['roles'])

@@ -67,6 +67,13 @@ def get_sProgression():
 def get_sQuestions():
     return StudentEndpoints.get_sQuestions(auth_service)
 
+@app.route("/sQuestions/completed", methods=['GET'])
+def get_sQuestionsCompleted():
+    return StudentEndpoints.get_sQuestionsCompleted(auth_service)
+
+@app.route("/sQuestions/incompleted", methods=['GET'])
+def get_sQuestionsIncompleted():
+    return StudentEndpoints.get_sQuestionsIncompleted(auth_service)
 
 # Teacher
 @app.route("/teacher", methods=['GET'])
@@ -80,6 +87,18 @@ def get_tStudents():
 @app.route("/tQuestions", methods=['GET'])
 def get_tQuestions():
     return TeacherEndpoints.get_tQuestions(auth_service)
+
+@app.route("/tQuestions/create", methods=['GET'])
+def get_tQuestionsCreate():
+    return TeacherEndpoints.get_tQuestionsCreate(auth_service)
+
+@app.route("/tQuestions/modify", methods=['GET'])
+def get_tQuestionsModify():
+    return TeacherEndpoints.get_tQuestionsModify(auth_service)
+
+@app.route("/tQuestions/display", methods=['GET'])
+def get_tQuestionsDisplay():
+    return TeacherEndpoints.get_tQuestionsDisplay(auth_service)
 
 # Admin
 @app.route("/admin", methods=['GET'])

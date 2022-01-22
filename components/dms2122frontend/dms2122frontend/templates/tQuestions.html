@@ -1,7 +1,19 @@
 {% extends "teacher.html" %}
+{% from "macros/buttons.html" import button, submit_button %}
 {% block contentsubheading %}Teachers panel - Questions{% endblock %}
 {% block teachercontent %}
     {% block tquestioncontent %}
-    <p class="yellowbg">Under construction</p>
+    <h2><a href="tQuestions/create">Create a new question</a></h2>
+    <br/>
+    <h4>Questions:</h4>
+    {% for i in arrayQuestions %}
+        <tr>
+            <td>{{ i['title'] }}</td>
+            <td>{{ button('redbg', '/tQuestions/modify?afterSave=/home&title=' + i['title'], 'Modify') }}</td>
+            <td>{{ button('redbg', '/tQuestions/display?afterSave=/tQuestions&title=' + i['title'], 'Display') }}</td>
+            <br/>
+        </tr>
+    {% endfor %}
+
     {% endblock %}
 {% endblock %}

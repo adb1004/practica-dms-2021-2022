@@ -1,0 +1,29 @@
+{% extends "teacher.html" %}
+{% block contentsubheading %}Teacher - Questions - Modify{% endblock %}
+{% block teachercontent %}
+    {% block tquestioncontent %}
+        {% block tquestionmodifycontent %}
+        <form action="/tQuestions/create" method="post">
+            <h3>Title</h3>
+                <input type="text" name="title" value= "{{title}}"/>
+            <h3>Description</h3>
+                <input type="text" name="desc" value= "{{desc}}" />
+            <h3>Choices</h3>
+                <input type="text" name="c_1" value= "{{c_1}}"  /> <br/>
+                <input type="text" name="c_2" value= "{{c_2}}"  /><br/>
+                <input type="text" name="c_3" value= "{{c_3}}" /><br/>
+                <input type="text" name="c_4" value= "{{c_4}}" /><br/>
+            <h3>Correct choice (index)</h3>
+               <input type="number" name="c_right" value= "{{c_right}}"  max="4" min="1"/>
+            <h3>Puntuation</h3>
+                <input type="number" name="puntuation" value= "{{puntuation}}" min="0" step="0.10"/>
+            <h3>Penalization</h3>
+                <input type="number" name="penalization" value= "{{penalization}}"  max="0" step="0.10"/>
+            <br/><br/>
+            <a href="{{afterSave}}">Save Changes</a>
+            <br/>
+            <a href="/tQuestions">Cancel</a>
+        </form>
+        {% endblock %}
+    {% endblock %}
+{% endblock %}
