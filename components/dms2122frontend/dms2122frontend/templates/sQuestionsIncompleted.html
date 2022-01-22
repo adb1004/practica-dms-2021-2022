@@ -1,9 +1,18 @@
 {% extends "student.html" %}
+{% from "macros/buttons.html" import button, submit_button %}
 {% block contentsubheading %}Student - Questions - Incompleted{% endblock %}
 {% block studentcontent %}
     {% block squestioncontent %}
         {% block squestionincompletedcontent %}
-        <p class="yellowbg">Under construction</p>
+            <br/>
+            <h4>Incompleted questions:</h4>
+            {% for i in arrayIncompleted %}
+                <tr>
+                    <td>{{ i['title'] }}</td>
+                    <td>{{ button('redbg', '/sQuestions/incompleted/complete?afterSave=/sQuestions&title=' + i['title'], 'Answer') }}</td>
+                    <br/>
+                </tr>
+            {% endfor %}
         {% endblock %}
     {% endblock %}
 {% endblock %}

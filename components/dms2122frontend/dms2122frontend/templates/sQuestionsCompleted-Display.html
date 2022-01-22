@@ -1,0 +1,25 @@
+{% extends "student.html" %}
+{% block contentsubheading %}Student - Questions - Completed - Display{% endblock %}
+{% block studentcontent %}
+    {% block squestioncontent %}
+        {% block squestioncompletedcontent %}
+            {% block displaycontent %}
+            <form action="/sQuestions/Completed/Display" method="post">
+                <dl>
+                    <h2>{{ title }}</h2>
+                    <p>Question description</p>
+                    <h4>Choices:</h4>
+                    <dd>
+                        <input type="radio" id="c_1" name="choices">Choice 1<br>
+                        <input type="radio" id="c_2" name="choices">Choice 2<br>
+                        <input type="radio" id="c_3" name="choices">Choice 3<br>
+                        <input type="radio" id="c_4" name="choices">Choice 4<br><br>
+                    </dd>
+                    <p><strong>Puntuation</strong> 1</p>
+                </dl>
+              <a href="{{afterSave}}">Back</a>
+            </form>
+            {% endblock %}
+        {% endblock %}
+    {% endblock %}
+{% endblock %}

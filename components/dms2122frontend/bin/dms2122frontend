@@ -71,9 +71,21 @@ def get_sQuestions():
 def get_sQuestionsCompleted():
     return StudentEndpoints.get_sQuestionsCompleted(auth_service)
 
+@app.route("/sQuestions/completed/display", methods=['GET'])
+def get_sQuestionsCompletedDisplay():
+    return StudentEndpoints.get_sQuestionsCompletedDisplay(auth_service)
+
 @app.route("/sQuestions/incompleted", methods=['GET'])
 def get_sQuestionsIncompleted():
     return StudentEndpoints.get_sQuestionsIncompleted(auth_service)
+
+@app.route("/sQuestions/incompleted/complete", methods=['GET'])
+def get_sQuestionsIncompletedComplete():
+    return StudentEndpoints.get_sQuestionsIncompletedComplete(auth_service)
+
+@app.route("/sQuestions/incompleted/complete", methods=['POST'])
+def post_sQuestionsIncompletedComplete():
+    return StudentEndpoints.post_sQuestionsIncompletedComplete(auth_service)
 
 # Teacher
 @app.route("/teacher", methods=['GET'])
@@ -92,9 +104,17 @@ def get_tQuestions():
 def get_tQuestionsCreate():
     return TeacherEndpoints.get_tQuestionsCreate(auth_service)
 
+@app.route("/tQuestions/create", methods=['POST'])
+def post_tQuestionsCreate():
+    return TeacherEndpoints.post_tQuestionsCreate(auth_service)
+
 @app.route("/tQuestions/modify", methods=['GET'])
 def get_tQuestionsModify():
     return TeacherEndpoints.get_tQuestionsModify(auth_service)
+
+@app.route("/tQuestions/modify", methods=['POST'])
+def post_tQuestionsModify():
+    return TeacherEndpoints.post_tQuestionsModify(auth_service)
 
 @app.route("/tQuestions/display", methods=['GET'])
 def get_tQuestionsDisplay():

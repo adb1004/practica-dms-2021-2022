@@ -74,6 +74,17 @@ class TeacherEndpoints():
         return render_template('tQuestionsCreate.html', name=name, roles=session['roles'], afterSave=afterSave)
     
     @staticmethod
+    def post_tQuestionsCreate(auth_service: AuthService) -> Union[Response, Text]:
+        # Redirect the user if it is not login or if he has not the right role
+        if not WebAuth.test_token(auth_service):
+            return redirect(url_for('get_login'))
+        if Role.Teacher.name not in session['roles']:
+            return redirect(url_for('get_home'))
+
+        afterSave = request.args.get('afterSave', default='/tQuestions')
+        return redirect(afterSave)
+    
+    @staticmethod
     def get_tQuestionsModify(auth_service: AuthService) -> Union[Response, Text]:
         # Redirect the user if it is not login or if he has not the right role
         if not WebAuth.test_token(auth_service):
@@ -85,6 +96,17 @@ class TeacherEndpoints():
         name = session['user']
         return render_template('tQuestionsModify.html', name=name, roles=session['roles'], afterSave=afterSave,
             title="Example Title", desc="Example description",puntuation=10, penalization=-1, c_right=1, c_1="First Choice", c_2="Second Choice", c_3="Third Choice", c_4="Fourth Choice")
+    
+    @staticmethod
+    def post_tQuestionsModify(auth_service: AuthService) -> Union[Response, Text]:
+        # Redirect the user if it is not login or if he has not the right role
+        if not WebAuth.test_token(auth_service):
+            return redirect(url_for('get_login'))
+        if Role.Teacher.name not in session['roles']:
+            return redirect(url_for('get_home'))
+        
+        afterSave = request.args.get('afterSave', default='/tQuestions')
+        return redirect(afterSave)
     
     @staticmethod
     def get_tQuestionsDisplay(auth_service: AuthService) -> Union[Response, Text]:

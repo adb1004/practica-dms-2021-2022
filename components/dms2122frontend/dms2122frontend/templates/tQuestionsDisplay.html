@@ -3,8 +3,7 @@
 {% block teachercontent %}
     {% block tquestioncontent %}
         {% block tquestiondisplaycontent %}
-        <form action="/teacher/questions/preview" method="post">
-            <input type="hidden" name="redirect_to" value="{{ redirect_to }}" />
+        <form action="/tQuestions/Display" method="post">
             <dl>
                 <h2>{{ title }}</h2>
                 <p>Question description</p>
@@ -13,7 +12,7 @@
                     <input type="radio" id="c_1" name="choices">Choice 1<br>
                     <input type="radio" id="c_2" name="choices">Choice 2<br>
                     <input type="radio" id="c_3" name="choices">Choice 3<br>
-                  <input type="radio" id="c_4" name="choices">Choice 4<br><br>
+                    <input type="radio" id="c_4" name="choices">Choice 4<br><br>
                     <input type="button" value="Send">
                 </dd>
                 <p><strong>Puntuation</strong> 1</p>
