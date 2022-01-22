@@ -34,7 +34,7 @@ app = Flask(
 )
 app.secret_key = bytes(cfg.get_app_secret_key(), 'ascii')
 
-
+# Login pages
 @app.route("/login", methods=['GET'])
 def get_login():
     return SessionEndpoints.get_login(auth_service)
@@ -47,18 +47,41 @@ def post_login():
 def get_logout():
     return SessionEndpoints.get_logout()
 
+
+# Home
 @app.route("/home", methods=['GET'])
 def get_home():
     return CommonEndpoints.get_home(auth_service)
 
+
+# Student
 @app.route("/student", methods=['GET'])
 def get_student():
     return StudentEndpoints.get_student(auth_service)
 
+@app.route("/sProgression", methods=['GET'])
+def get_sProgression():
+    return StudentEndpoints.get_sProgression(auth_service)
+
+@app.route("/sQuestions", methods=['GET'])
+def get_sQuestions():
+    return StudentEndpoints.get_sQuestions(auth_service)
+
+
+# Teacher
 @app.route("/teacher", methods=['GET'])
 def get_teacher():
     return TeacherEndpoints.get_teacher(auth_service)
 
+@app.route("/tStudents", methods=['GET'])
+def get_tStudents():
+    return TeacherEndpoints.get_tStudents(auth_service)
+
+@app.route("/tQuestions", methods=['GET'])
+def get_tQuestions():
+    return TeacherEndpoints.get_tQuestions(auth_service)
+
+# Admin
 @app.route("/admin", methods=['GET'])
 def get_admin():
     return AdminEndpoints.get_admin(auth_service)

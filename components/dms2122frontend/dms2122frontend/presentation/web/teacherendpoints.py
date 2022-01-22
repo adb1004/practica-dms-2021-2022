@@ -12,6 +12,7 @@ from .webauth import WebAuth
 class TeacherEndpoints():
     """ Monostate class responsible of handing the teacher web endpoint requests.
     """
+    
     @staticmethod
     def get_teacher(auth_service: AuthService) -> Union[Response, Text]:
         """ Handles the GET requests to the teacher root endpoint.
@@ -22,9 +23,34 @@ class TeacherEndpoints():
         Returns:
             - Union[Response,Text]: The generated response to the request.
         """
+        
+        # Redirect the user if it is not login or if he has not the right role
         if not WebAuth.test_token(auth_service):
             return redirect(url_for('get_login'))
         if Role.Teacher.name not in session['roles']:
             return redirect(url_for('get_home'))
+
         name = session['user']
         return render_template('teacher.html', name=name, roles=session['roles'])
+
+    @staticmethod
+    def get_tStudents(auth_service: AuthService) -> Union[Response, Text]:
+        # Redirect the user if it is not login or if he has not the right role
+        if not WebAuth.test_token(auth_service):
+            return redirect(url_for('get_login'))
+        if Role.Teacher.name not in session['roles']:
+            return redirect(url_for('get_home'))
+
+        name = session['user']
+        return render_template('tStudents.html', name=name, roles=session['roles'])
+    
+    @staticmethod
+    def get_tQuestions(auth_service: AuthService) -> Union[Response, Text]:
+        # Redirect the user if it is not login or if he has not the right role
+        if not WebAuth.test_token(auth_service):
+            return redirect(url_for('get_login'))
+        if Role.Teacher.name not in session['roles']:
+            return redirect(url_for('get_home'))
+
+        name = session['user']
+        return render_template('tQuestions.html', name=name, roles=session['roles'])
