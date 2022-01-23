@@ -1,60 +1,503 @@
 openapi: 3.0.0
 info:
-  title: DMS authentication service REST API
+  title: DMS backend service REST API
   version: '1.0'
   description: |
-    REST API for the authentication service.
-    Diseño y Mantenimiento del Software. Universidad de Burgos.
+    REST API for the backend service.
+    This is part of the mandatory exercise.
+    Diseño y Mantenimiento del Software
   contact:
     name: UBU
 tags:
   - name: questions
-    description: Question operations
+    description: Questions operations
   - name: answers
-    description: Answer operations
+    description: Answers operations
   - name: server
-    description: Serer operations 
+    description: Server operations
 servers:
   - url: /api/v1
 paths:
   '/':
-      head:
+    head:
       summary: Health test for the service
       operationId: dms2122backend.presentation.rest.server.health_test
       responses:
         '204':
-          description: Success response
+          description: Success response (will not redirect)
           content:
             'text/plain':
               schema:
                 type: string
       tags:
         - server
+  /answers/{qid}:
+    get:
+      summary: Returns all answers from a particular question
+      operationId: dms2122backend.presentation.rest.answer.answerListFromQuestion
+      parameters:
+        - name: qid
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: All the asnwers
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/AnswersAllList'
+        '400':
+          description: Request error
+          content:
+            'text/plain':
+              schema:
+                type: string
+        '403':
+          description: User without enought permissions
+          content:
+            'text/plain':
+              schema:
+                type: string
+      tags:
+        - questions
+        - answers
+      security:
+        - api_key: []
+  /answers/{username}:
+    get:
+      summary: Gets all answers from a user
+      operationId: dms2122backend.presentation.rest.answer.answerListFromUser
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: All the answers
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/AnswersAllList'
+        '400':
+          description: Request error
+          content:
+            'text/plain':
+              schema:
+                type: string
+      tags:
+        - questions
+        - answers
+      security:
+        - api_key: []
+  /questions:
+    get:
+      summary: List of all the question.
+      operationId: dms2122backend.presentation.rest.question.list_questions
+      responses:
+        '200':
+          description: A list of questions.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/QuestionAllList'
+      tags:
+        - questions
+      security:
+        - api_key: []
+  /question/create:
+    post:
+      summary: Create a new question
+      operationId: dms2122backend.presentation.rest.question.create_question
+      requestBody:
+        description: Parameters.
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/QuestionAll'
+      responses:
+        '200':
+          description: Question data
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/QuestionAllById'
+        '400':
+          description: Request error
+          content:
+            'text/plain':
+              schema:
+                type: string
+        '403':
+          description: User without enought permissions
+          content:
+            'text/plain':
+              schema:
+                type: string
+        '409':
+          description: Conflict with another question
+          content:
+            'text/plain':
+              schema:
+                type: string
+      tags:
+        - questions
+      security:
+        - api_key: []
+  /question/{qid}:
+    put:
+      summary: Modifies a question
+      operationId: dms2122backend.presentation.rest.question.modify_question
+      parameters:
+        - name: qid
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: data
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/QuestionAllById'
+      responses:
+        '200':
+          description: New question data
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/QuestionAllById'
+        '400':
+          description: Request error
+          content:
+            'text/plain':
+              schema:
+                type: string
+        '403':
+          description: User without enought permissions
+          content:
+            'text/plain':
+              schema:
+                type: string
+        '404':
+          description: Question not found or without any answer
+          content:
+            'text/plain':
+              schema:
+                type: string
+      tags:
+        - questions
+      security:
+        - api_key: []
+    get:
+      summary: Gets a question
+      operationId: dms2122backend.presentation.rest.question.get_question_by_id
+      parameters:
+        - name: qid
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Data.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/QuestionAllById'
+        '400':
+          description: Request error.
+          content:
+            'text/plain':
+              schema:
+                type: string
+      tags:
+        - questions
+      security:
+        - api_key: []
+  /question/{qid}/ans:
+    get:
+      summary: Returns if a question has any answers
+      operationId: dms2122backend.presentation.rest.answer.questionHasAnswers
+      parameters:
+        - name: qid
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Yes, it has at least one answer
+          content:
+            'text/plain':
+              schema:
+                type: string
+        '403':
+          description: User without enought permissions
+          content:
+            'text/plain':
+              schema:
+                type: string
+        '404':
+          description: Question not found or without any answer
+          content:
+            'text/plain':
+              schema:
+                type: string
+      tags:
+        - questions
+        - answers
+      security:
+        - api_key: []
+  /question/{qid}/answer/{username}:
+    post:
+      summary: User answer to a particular question
+      operationId: dms2122backend.presentation.rest.answer.answer
+      parameters:
+        - name: qid
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Answer data.
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/AnswerAll'
+      responses:
+        '200':
+          description: An answer has been found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/AnswerAll'
+        '400':
+          description: Not enought parameters
+          content:
+            'text/plain':
+              schema:
+                type: string
+        '403':
+          description: User without enought permissions
+          content:
+            'text/plain':
+              schema:
+                type: string
+        '404':
+          description: The user or the question does not been found
+          content:
+            'text/plain':
+              schema:
+                type: string
+      tags:
+        - questions
+        - answers
+      security:
+        - api_key: []
+    get:
+      summary: Returns a questions answer
+      operationId: dms2122backend.presentation.rest.answer.answerFromUserToQuestion
+      parameters:
+        - name: qid
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: All the answers to that question
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/AnswersAllList'
+        '403':
+          description: User without enought permissions
+          content:
+            'text/plain':
+              schema:
+                type: string
+      tags:
+        - questions
+        - answers
+      security:
+        - api_key: []
+
+
+
 components:
   schemas:
-    UserFullModel:
+    UserAll:
       type: object
       properties:
         username:
           type: string
       required:
         - username
-    UserFullPasswordModel:
+    UserAllPassword:
       allOf:
-        - $ref: '#/components/schemas/UserFullModel'
+        - $ref: '#/components/schemas/UserAll'
         - type: object
           properties:
             password:
               type: string
           required:
             - password
-    UsersFullListModel:
+    UserAllList:
       type: array
       items:
-        $ref: '#/components/schemas/UserFullModel'
+        $ref: '#/components/schemas/UserAll'
+
+    AnswerAll:
+      type: object
+      properties:
+        username:
+          type: string
+        id:
+          type: integer
+        qid:
+          type: integer
+      required:
+        - username
+        - id
+        - qid
+    AnswersAllList:
+      type: array
+      items:
+        $ref: '#/components/schemas/AnswerAll'
+
+    QuestionAll:
+      type: object
+      properties:
+        title:
+          type: string
+        desc:
+          type: string
+        c_1:
+          type: string
+        c_2:
+          type: string
+        c_3:
+          type: string
+        c_4:
+          type: string
+        c_right:
+          type: integer
+        puntuation:
+          type: number
+        penalization:
+          type: number
+      required:
+        - title
+        - desc
+        - c_1
+        - c_2
+        - c_3
+        - c_4
+        - c_right
+        - puntuation
+        - penalization
+    QuestionAllById:
+      type: object
+      properties:
+        qid:
+          type: integer
+        title:
+          type: string
+        desc:
+          type: string
+        c_1:
+          type: string
+        c_2:
+          type: string
+        c_3:
+          type: string
+        c_4:
+          type: string
+        c_right:
+          type: integer
+        puntuation:
+          type: number
+        penalization:
+          type: number
+        answered:
+          type: integer
+      required:
+        - qid
+        - title
+        - desc
+        - c_1
+        - c_2
+        - c_3
+        - c_4
+        - c_right
+        - puntuation
+        - penalization
+    QuestionAllList:
+      type: array
+      items:
+        $ref: '#/components/schemas/QuestionAllById'
+    
+    CompletedQuestion:
+      type: object
+      properties:
+        qid:
+          type: integer
+        title:
+          type: string
+        desc:
+          type: string
+        c_1:
+          type: string
+        c_2:
+          type: string
+        c_3:
+          type: string
+        c_4:
+          type: string
+        c_right:
+          type: integer
+        puntuation:
+          type: number
+        penalization:
+          type: number
+        answer_result:
+          type: number
+      required:
+        - qid
+        - title
+        - desc
+        - c_1
+        - c_2
+        - c_3
+        - c_4
+        - c_right
+        - puntuation
+        - penalization
+    CompletedQuestionList:
+      type: array
+      items:
+        $ref: '#/components/schemas/CompletedQuestion'
+
   securitySchemes:
     api_key:
       type: apiKey
-      name: X-ApiKey-Auth
+      name: X-ApiKey-Backend
       in: header
       x-apikeyInfoFunc: dms2122backend.presentation.rest.security.verify_api_key
+
+
+

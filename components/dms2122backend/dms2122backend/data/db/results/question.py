@@ -1,4 +1,5 @@
 from dms2122backend.data.db.results.base import Base
+from dms2122backend.data.db.results.answer import Answer
 from sqlalchemy import Table, Column, Integer, Float,String, MetaData
 from sqlalchemy.orm import relationship
 from typing import Dict

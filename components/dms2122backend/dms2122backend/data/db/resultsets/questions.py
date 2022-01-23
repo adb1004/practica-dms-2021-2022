@@ -43,3 +43,24 @@ class Questions():
         except NoResultFound:
             return None
         return question 
+    
+    @staticmethod
+    def modify(session: Session, qid: int, title: str,  desc: str, c_1: str, c_2: str, c_3: str, c_4: str, c_right: int, puntuation: float, penalization: float) -> Optional[Question]:
+        edit_question = Questions.get_question_by_id(session, qid)
+        
+        if edit_question is not None:        
+            edit_question.title = title
+            edit_question.desc = desc
+            edit_question.c_1 = c_1
+            edit_question.c_2 = c_2
+            edit_question.c_3 = c_3
+            edit_question.c_4 = c_4
+            edit_question.c_right = c_right
+            edit_question.puntuation = puntuation
+            edit_question.penalization = penalization
+
+            session.commit()
+
+            return edit_question
+        
+        raise QuestionOrUserNotCreated()

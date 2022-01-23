@@ -1,9 +1,9 @@
-from sqlalchemy import Table, Column, String, MetaData
-from sqlalchemy.orm import relationship
-from typing import Dict
 from abc import ABC, abstractmethod
+from typing import Dict
+from sqlalchemy import Table, MetaData  
+from sqlalchemy.orm import mapper 
 
-class Base(ABD):
+class Base(ABC):
     
     @classmethod
     def map(cls: type, metadata: MetaData) -> None:
@@ -16,3 +16,5 @@ class Base(ABD):
     @staticmethod
     @abstractmethod
     def _table_definition(metadata: MetaData) -> Table:
+        """base
+        """

@@ -16,7 +16,7 @@ class Answer(Base):
          return Table(
             'answers',
             metadata,
-            Column('user', String(32), ForeignKey('user.username'), primary_key=True),
-            Column('qid', Integer, ForeignKey('questions.qid'), primaryKey=True),
-            Column('id', Integer, nullable=False)
+            Column('user', String(32), primary_key=True),
+            Column('id', Integer, nullable=False),
+            Column('qid', Integer, ForeignKey('questions.qid'), primary_key=True)
         ) 

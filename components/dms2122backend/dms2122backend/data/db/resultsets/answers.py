@@ -1,6 +1,6 @@
 import hashlib
 from dms2122backend.data.db.results import Answer
-from dms2122backend.data.db.exc import QuestionNotCreated
+from dms2122backend.data.db.exc.questionorusernotcreated import QuestionOrUserNotCreated
 from dms2122backend.data.db.exc import UserNotRegistered
 from sqlalchemy.exc import IntegrityError  
 from sqlalchemy.orm.exc import NoResultFound  
@@ -20,7 +20,7 @@ class Answers():
             return nAnswer
         except IntegrityError as exception:
             session.rollback()
-            raise QuestionNotCreated() from exception 
+            raise QuestionOrUserNotCreated() from exception 
         except:
             session.rollback()
             raise
@@ -49,3 +49,12 @@ class Answers():
         questions = Answers.answerListFromQuestion(session, qid)
 
         return len(questions) != 0 
+
+    @staticmethod
+    def answerFromUserToQuestion(session: Session, user: str, qid: int) -> Answer:
+        if not user:
+            raise ValueError('Username is empty')
+        query = session.query(Answer).filter_by(
+            user=user, qid=qid
+        )
+        return query.one_or_none() 

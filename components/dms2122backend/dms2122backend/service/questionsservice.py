@@ -43,3 +43,14 @@ class QuestionsService():
         finally:
             schema.remove_session()
         return out
+    
+    @staticmethod
+    def edit_question(qid: int, title: str,  desc: str, c_1: str, c_2: str, c_3: str, c_4: str, c_right: int, puntuation: float, penalization: float, schema: Schema) -> Optional[Question]:
+        session: Session = schema.new_session()
+        try:
+            question = Questions.edit(session, qid, desc, c_1, c_2, c_3, c_4, c_right, puntuation, penalization)
+        except Exception as exception:
+            raise exception
+        finally:
+            schema.remove_session()
+        return question

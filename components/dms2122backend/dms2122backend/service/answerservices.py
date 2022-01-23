@@ -9,7 +9,6 @@ class AnswersServices():
     @staticmethod
     def answer(username: str, id: int, qid: int, schema: Schema) -> None:
         session: Session = schema.new_session()
-        out: Dict = {}
         try:
             Answers.answer(session, username, id, qid)
 
@@ -19,7 +18,7 @@ class AnswersServices():
             schema.remove_session()
 
     @staticmethod
-    def answerListFromUser(schema: Schema, username: str) -> List[Answer]:
+    def answerListFromUser(username: str, schema: Schema) -> List[Answer]:
         session: Session = schema.new_session()
         answer = Answers.list_all_for_user(session, username)
         schema.remove_session()
@@ -27,19 +26,22 @@ class AnswersServices():
 
 
     @staticmethod
-    def answerListFromQuestion(schema: Schema, qid: int) -> List[Answer]:
+    def answerListFromQuestion(qid: int, schema: Schema) -> List[Answer]:
         session: Session = schema.new_session()
         answer = Answers.list_all_for_question(session, qid)
         schema.remove_session()
         return answer
 
     @staticmethod
-    def questionHasAnswers(schema: Schema, qid: int) -> bool:
-
+    def questionHasAnswers(qid: int, schema: Schema) -> bool:
         session: Session = schema.new_session()
-        answer = Answers.list_all_for_question(session, qid)
-        size = len(answer)
+        answer = Answers.question_has_answers(session, questionId)
         schema.remove_session()
-        if size == 0:
-            return False
-        return True 
+        return answer 
+    
+    @staticmethod
+    def answerFromUserToQuestion(user: str, qid: int, schema: Schema) -> Answer:
+        session: Session = schema.new_session()
+        answer = Answers.answerFromUserToQuestion(session, user, qid)
+        schema.remove_session()
+        return answer 

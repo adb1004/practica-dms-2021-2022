@@ -1,5 +1,5 @@
 # Exceptions
 
 from .usernotregistered import UserNotRegistered
-from .questionnotcreated import QuestionNotCreated
+from .questionorusernotcreated import QuestionOrUserNotCreated
 from .questionalreadyexist import QuestionAlreadyExist 
