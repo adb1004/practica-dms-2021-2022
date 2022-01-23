@@ -1,0 +1,60 @@
+openapi: 3.0.0
+info:
+  title: DMS authentication service REST API
+  version: '1.0'
+  description: |
+    REST API for the authentication service.
+    Diseño y Mantenimiento del Software. Universidad de Burgos.
+  contact:
+    name: UBU
+tags:
+  - name: questions
+    description: Question operations
+  - name: answers
+    description: Answer operations
+  - name: server
+    description: Serer operations 
+servers:
+  - url: /api/v1
+paths:
+  '/':
+      head:
+      summary: Health test for the service
+      operationId: dms2122backend.presentation.rest.server.health_test
+      responses:
+        '204':
+          description: Success response
+          content:
+            'text/plain':
+              schema:
+                type: string
+      tags:
+        - server
+components:
+  schemas:
+    UserFullModel:
+      type: object
+      properties:
+        username:
+          type: string
+      required:
+        - username
+    UserFullPasswordModel:
+      allOf:
+        - $ref: '#/components/schemas/UserFullModel'
+        - type: object
+          properties:
+            password:
+              type: string
+          required:
+            - password
+    UsersFullListModel:
+      type: array
+      items:
+        $ref: '#/components/schemas/UserFullModel'
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-ApiKey-Auth
+      in: header
+      x-apikeyInfoFunc: dms2122backend.presentation.rest.security.verify_api_key
