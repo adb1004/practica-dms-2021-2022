@@ -252,7 +252,7 @@ paths:
         - answers
       security:
         - api_key: []
-  /question/{qid}/answer/{username}:
+  /question/{qid}/ans/{username}:
     post:
       summary: User answer to a particular question
       operationId: dms2122backend.presentation.rest.answer.answer

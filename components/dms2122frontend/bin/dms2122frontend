@@ -103,23 +103,27 @@ def get_tQuestions():
 
 @app.route("/tQuestions/create", methods=['GET'])
 def get_tQuestionsCreate():
-    return TeacherEndpoints.get_tQuestionsCreate(auth_service)
+    return TeacherEndpoints.get_tQuestionsCreate(auth_service, backend_service)
 
 @app.route("/tQuestions/create", methods=['POST'])
 def post_tQuestionsCreate():
-    return TeacherEndpoints.post_tQuestionsCreate(auth_service)
+    return TeacherEndpoints.post_tQuestionsCreate(auth_service, backend_service)
 
 @app.route("/tQuestions/modify", methods=['GET'])
 def get_tQuestionsModify():
-    return TeacherEndpoints.get_tQuestionsModify(auth_service)
+    return TeacherEndpoints.get_tQuestionsModify(auth_service, backend_service)
 
 @app.route("/tQuestions/modify", methods=['POST'])
 def post_tQuestionsModify():
-    return TeacherEndpoints.post_tQuestionsModify(auth_service)
+    return TeacherEndpoints.post_tQuestionsModify(auth_service, backend_service)
 
 @app.route("/tQuestions/display", methods=['GET'])
 def get_tQuestionsDisplay():
-    return TeacherEndpoints.get_tQuestionsDisplay(auth_service)
+    return TeacherEndpoints.get_tQuestionsDisplay(auth_service, backend_service)
+
+@app.route("/tQuestions/progression", methods=['GET'])
+def get_teacher_questions_stats():
+    return TeacherEndpoints.get_tQuestionsProgression(auth_service,backend_service)
 
 # Admin
 @app.route("/admin", methods=['GET'])

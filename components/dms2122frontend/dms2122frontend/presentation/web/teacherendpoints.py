@@ -55,12 +55,6 @@ class TeacherEndpoints():
         if Role.Teacher.name not in session['roles']:
             return redirect(url_for('get_home'))
 
-        arrayQuestions=[
-            {"title": "Example Title 1", "desc": "Example description 1", "puntuation": 10, "penalization": -1, "c_right": 1, "c_1": "First Choice", "c_2": "Second Choice", "c_3": "Third Choice", "c_4": "Fourth Choice"},
-            {"title": "Example Title 2", "desc": "Example description 2", "puntuation": 8, "penalization": -2, "c_right": 2, "c_1": "First Choice 2", "c_2": "Second Choice 2", "c_3": "Third Choice 2", "c_4": "Fourth Choice 2"},
-            {"title": "Example Title 3", "desc": "Example description 3", "puntuation": 5, "penalization": 0, "c_right": 4, "c_1": "First Choice 3", "c_2": "Second Choice 3", "c_3": "Third Choice 3", "c_4": "Fourth Choice 3"}
-        ]
-
         name = session['user']
         return render_template('tQuestions.html', name=name, roles=session['roles'], arrayQuestions=WebQuestion.list_questions(backend_service))
     
@@ -77,7 +71,7 @@ class TeacherEndpoints():
         return render_template('tQuestionsCreate.html', name=name, roles=session['roles'], afterSave=afterSave)
     
     @staticmethod
-    def post_tQuestionsCreate(auth_service: AuthService) -> Union[Response, Text]:
+    def post_tQuestionsCreate(auth_service: AuthService, backend_service: BackendService) -> Union[Response, Text]:
         # Redirect the user if it is not login or if he has not the right role
         if not WebAuth.test_token(auth_service):
             return redirect(url_for('get_login'))
@@ -96,7 +90,7 @@ class TeacherEndpoints():
             return redirect(url_for('get_home'))
         
         afterSave = request.args.get('afterSave', default='/tQuestions')
-        qid: int = int(request.args.get('qid'))
+        qid: int = int(str(request.args.get('qid')))
         name = session['user']
         return render_template('tQuestionsModify.html', name=name, roles=session['roles'], afterSave=afterSave, question = WebQuestion.get_question(backend_service ,qid))
     
@@ -110,9 +104,8 @@ class TeacherEndpoints():
         
         successful: bool = True
 
-        successful &= WebQuestion.edit_question(auth_service, request.form['qid'], request.form['title'], request.form['desc'], request.form['c_1'], request.form['c_2'], request.form['c_3'], request.form['c_4'], request.form['c_right'], request.form['puntuation'], request.form['penalization'])
-        session['questions'] = WebQuestion.get_question(auth_service, session['question'])
-
+        successful &= WebQuestion.modify_question(backend_service, request.form['qid'], request.form['title'], request.form['desc'], request.form['c_1'], request.form['c_2'], request.form['c_3'], request.form['c_4'], request.form['c_right'], request.form['puntuation'], request.form['penalization'])
+        
         afterSave = request.args.get('afterSave', default='/tQuestions')
         return redirect(afterSave)
     
@@ -123,7 +116,21 @@ class TeacherEndpoints():
             return redirect(url_for('get_login'))
         if Role.Teacher.name not in session['roles']:
             return redirect(url_for('get_home'))
-        title: str = str(request.args.get('title'))
+        qid: int = int(request.args.get('qid'))
         afterSave = request.args.get('afterSave', default='/tQuestions')
         name = session['user']
-        return render_template('tQuestionsDisplay.html', name=name, roles=session['roles'], afterSave=afterSave, title=title)
+        return render_template('tQuestionsDisplay.html', name=name, roles=session['roles'], afterSave=afterSave, question=WebQuestion.get_question(backend_service ,qid))
+
+        
+    @staticmethod
+    def get_tQuestionsProgression(auth_service: AuthService, backend_service: BackendService) -> Union[Response, Text]:
+        # Redirect the user if it is not login or if he has not the right role
+        if not WebAuth.test_token(auth_service):
+            return redirect(url_for('get_login'))
+        if Role.Teacher.name not in session['roles']:
+            return redirect(url_for('get_home'))
+        
+        name = session['user']
+        return render_template('tQuestionsProgression.html', name=name, roles=session['roles'])
+        
+        

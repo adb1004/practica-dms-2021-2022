@@ -117,14 +117,14 @@ class BackendService():
         
         return response_data
 
-    def answer_question(self, token: Optional[str], id: int, number: int, username: str) -> ResponseData:
+    def answer_question(self, token: Optional[str], qid: int, id: int, username: str) -> ResponseData:
         response_data: ResponseData = ResponseData()
         response: requests.Response = requests.post(
-            self.__base_url() + f'/question/{id}/answer{username}',
+            self.__base_url() + f'/question/{qid}/ans{username}',
             json={
                 'username': username,
-                'number': number,
-                'id': id
+                'id': id,
+                'qid': qid
             },
             headers={
                 'Authorization': f'Bearer {token}',

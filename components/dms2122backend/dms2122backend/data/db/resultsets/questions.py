@@ -25,15 +25,6 @@ class Questions():
     def questionsList(session: Session) -> List[Question]:
         query = session.query(Question)
         return query.all()
-
-    @staticmethod
-    def get_question(session: Session, title:str, desc:str, c_1:str, c_2:str, c_3:str, c_4:str, c_right:int, puntuation: float, penalization: float) -> Optional[Question]:
-        try:
-            query = session.query(Question).filter_by(title=title, desc=desc, c_1=c_1, c_2=c_2, c_3=c_3, c_4=c_4, c_right=c_right, puntuation=puntuation, penalization=penalization)
-            question: Question = query.one()
-        except NoResultFound:
-            return None
-        return question
     
     @staticmethod
     def getQuestionFromId(session: Session, qid: int,) -> Optional[Question]:

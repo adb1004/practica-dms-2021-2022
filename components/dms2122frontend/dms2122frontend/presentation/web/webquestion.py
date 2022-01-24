@@ -27,10 +27,10 @@ class WebQuestion():
         return response.get_content()
 
     @staticmethod
-    def modify_question(backend_service: BackendService, qid: int, title: str,  desc: str, c_1: str, c_2: str, c_3: str, c_4 : str, c_right: int, puntuation: float, penalization: float) -> Optional[Dict]:
+    def modify_question(backend_service: BackendService, qid: int, title: str,  desc: str, c_1: str, c_2: str, c_3: str, c_4 : str, c_right: int, puntuation: float, penalization: float) -> bool:
         response: ResponseData = backend_service.modify_question(session.get('token'), qid, title, desc, c_1, c_2, c_3, c_right, puntuation, penalization)
         WebUtils.flash_response_messages(response)
-        return response.get_content()
+        return response.is_successful()
 
     @staticmethod
     def questionHasAnswers(backend_service: BackendService, qid: int) -> bool:

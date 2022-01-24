@@ -4,21 +4,24 @@
     {% block tquestioncontent %}
         {% block tquestionmodifycontent %}
         <form action="/tQuestions/modify" method="post">
+
+            <input type="hidden" name="qid" value="{{ question['qid'] }}" />
+
             <h3>Title</h3>
-                <input type="text" name="title" value= "{{title}}"/>
+                <input type="text" name="title" value= "{{question['title']}}"/>
             <h3>Description</h3>
-                <input type="text" name="desc" value= "{{desc}}" />
+                <input type="text" name="desc" value= "{{question['desc']}}" />
             <h3>Choices</h3>
-                <input type="text" name="c_1" value= "{{c_1}}"  /> <br/>
-                <input type="text" name="c_2" value= "{{c_2}}"  /><br/>
-                <input type="text" name="c_3" value= "{{c_3}}" /><br/>
-                <input type="text" name="c_4" value= "{{c_4}}" /><br/>
+                <input type="text" name="c_1" value= "{{question['c_1']}}"  /> <br/>
+                <input type="text" name="c_2" value= "{{question['c_2']}}"  /><br/>
+                <input type="text" name="c_3" value= "{{question['c_3']}}" /><br/>
+                <input type="text" name="c_4" value= "{{question['c_4']}}" /><br/>
             <h3>Correct choice (index)</h3>
-               <input type="number" name="c_right" value= "{{c_right}}"  max="4" min="1"/>
+               <input type="number" name="c_right" value= "{{question['c_right']}}"  max="4" min="1"/>
             <h3>Puntuation</h3>
-                <input type="number" name="puntuation" value= "{{puntuation}}" min="0" step="0.10"/>
+                <input type="number" name="puntuation" value= "{{question['puntuation']}}" min="0" step="0.10"/>
             <h3>Penalization</h3>
-                <input type="number" name="penalization" value= "{{penalization}}"  max="0" step="0.10"/>
+                <input type="number" name="penalization" value= "{{question['penalization']}}"  max="0" step="0.10"/>
             <br/><br/>
             <a href="{{afterSave}}">Save Changes</a>
             <br/>
