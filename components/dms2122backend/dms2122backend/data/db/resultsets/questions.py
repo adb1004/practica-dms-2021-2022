@@ -6,8 +6,10 @@ from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.orm.session import Session
 from typing import List, Optional
 
+# Class that represents all the questions
 class Questions():
 
+    # Method that creates and register a question
     @staticmethod
     def create(session: Session, title:str, desc:str, c_1:str, c_2:str, c_3:str, c_4:str, c_right:int, puntuation: float, penalization: float) -> Question:
         if not title or not desc or not c_1 or not c_2 or not c_3 or not c_4 or not c_right or not puntuation or not penalization:
@@ -20,11 +22,13 @@ class Questions():
             return new_question
         except IntegrityError as exception: raise QuestionAlreadyExist('There is already a question created with te same title: ' + title) from exception
     
+    # List of all questions
     @staticmethod
     def questionsList(session: Session) -> List[Question]:
         query = session.query(Question)
         return query.all()
     
+    # Gets a question from its question id
     @staticmethod
     def getQuestionFromId(session: Session, qid: int,) -> Optional[Question]:
         if not qid:
@@ -36,6 +40,7 @@ class Questions():
         except NoResultFound: return None
         return question 
     
+    # Modifies a particular question
     @staticmethod
     def modify(session: Session, qid: int, title: str,  desc: str, c_1: str, c_2: str, c_3: str, c_4: str, c_right: int, puntuation: float, penalization: float) -> Optional[Question]:
         if not title or not desc or not c_1 or not c_2 or not c_3 or not c_4 or not c_right or not puntuation or not penalization: raise ValueError('At least 1 field is not completed')

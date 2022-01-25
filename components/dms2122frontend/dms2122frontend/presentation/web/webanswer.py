@@ -4,7 +4,10 @@ from typing import Dict, List, Optional
 from flask import session
 from .webutils import WebUtils
 
+# Answer web class
 class WebAnswer():
+
+    # Answer a particular question
     @staticmethod
     def answer_question(backend_service: BackendService, qid: int, id: int, username: str) -> Optional[Dict]:
         response: ResponseData = backend_service.answer_question(session.get('token'), qid, id, username)
@@ -12,6 +15,7 @@ class WebAnswer():
         
         return response.get_content()
 
+    # All answers from a particular question
     @staticmethod
     def allAnswersFromQuestion(backend_service: BackendService, qid: int) -> Optional[List]:
         response: ResponseData = backend_service.allAnswersFromQuestion(session.get('token'), qid)
@@ -20,6 +24,7 @@ class WebAnswer():
             return list(response.get_content())
         return []
 
+    # All answers from a particular user
     @staticmethod
     def allAnswersFromUsername(backend_service: BackendService, username: str) -> Optional[List]:
         response: ResponseData = backend_service.allAnswersFromUsername(session.get('token'), username)
@@ -30,6 +35,7 @@ class WebAnswer():
         
         return []
 
+    # Answer from a particular user and a particular qid
     @staticmethod
     def get_answer(backend_service: BackendService, username: str, qid: int) -> Optional[Dict]:
         response: ResponseData = backend_service.get_answer(session.get('token'), username, qid)

@@ -37,6 +37,7 @@ class TeacherEndpoints():
         name = session['user']
         return render_template('teacher.html', name=name, roles=session['roles'])
 
+    # Get request from teacher's students
     @staticmethod
     def get_tStudents(auth_service: AuthService, backend_service: BackendService) -> Union[Response, Text]:
         # Redirect the user if it is not login or if he has not the right role
@@ -48,6 +49,7 @@ class TeacherEndpoints():
         name = session['user']
         return render_template('tStudents.html', name=name, roles=session['roles'], statistics=WebStatistics.usersStatistics(backend_service))
     
+    # Get request from teacher's questions
     @staticmethod
     def get_tQuestions(auth_service: AuthService, backend_service: BackendService) -> Union[Response, Text]:
         # Redirect the user if it is not login or if he has not the right role
@@ -59,6 +61,7 @@ class TeacherEndpoints():
         name = session['user']
         return render_template('tQuestions.html', name=name, roles=session['roles'], arrayQuestions=WebQuestion.list_questions(backend_service))
     
+    # Get request from teacher creating a question
     @staticmethod
     def get_tQuestionsCreate(auth_service: AuthService, backend_service: BackendService) -> Union[Response, Text]:
         # Redirect the user if it is not login or if he has not the right role
@@ -71,6 +74,7 @@ class TeacherEndpoints():
         name = session['user']
         return render_template('tQuestionsCreate.html', name=name, roles=session['roles'], afterSave=afterSave)
     
+    # Post request from teacher creating a question
     @staticmethod
     def post_tQuestionsCreate(auth_service: AuthService, backend_service: BackendService) -> Union[Response, Text]:
         # Redirect the user if it is not login or if he has not the right role
@@ -79,7 +83,6 @@ class TeacherEndpoints():
         if Role.Teacher.name not in session['roles']:
             return redirect(url_for('get_home'))
 
-        #afterSave = request.args.get('afterSave', default='/tQuestions')
         if not request.form['puntuation'] or not request.form['penalization'] or not request.form['c_right']:
             flash('An argument has not been found', 'error')
             return redirect(url_for('get_tQuestionsCreate'))
@@ -89,7 +92,6 @@ class TeacherEndpoints():
         if not nQuestion:
             return redirect(url_for('get_tQuestionsCreate'))
         
-        #afterSave = request.form['afterSave']
         afterSave = afterSave = url_for('get_tQuestions')
         
         if not afterSave:
@@ -97,6 +99,7 @@ class TeacherEndpoints():
 
         return redirect(afterSave)
     
+    # Get request from teacher questions modify
     @staticmethod
     def get_tQuestionsModify(auth_service: AuthService, backend_service: BackendService) -> Union[Response, Text]:
         # Redirect the user if it is not login or if he has not the right role
@@ -110,6 +113,7 @@ class TeacherEndpoints():
         name = session['user']
         return render_template('tQuestionsModify.html', name=name, roles=session['roles'], afterSave=afterSave, question = WebQuestion.get_question(backend_service ,qid))
     
+    # Post request from teacher questions modify
     @staticmethod
     def post_tQuestionsModify(auth_service: AuthService, backend_service: BackendService) -> Union[Response, Text]:
         # Redirect the user if it is not login or if he has not the right role
@@ -129,6 +133,7 @@ class TeacherEndpoints():
         afterSave = request.args.get('afterSave', default='/tQuestions')
         return redirect(afterSave)
     
+    # Get request from teacher question displaying
     @staticmethod
     def get_tQuestionsDisplay(auth_service: AuthService, backend_service: BackendService) -> Union[Response, Text]:
         # Redirect the user if it is not login or if he has not the right role
@@ -141,7 +146,7 @@ class TeacherEndpoints():
         name = session['user']
         return render_template('tQuestionsDisplay.html', name=name, roles=session['roles'], afterSave=afterSave, question=WebQuestion.get_question(backend_service ,qid))
 
-        
+    # Get request from question progression
     @staticmethod
     def get_tQuestionsProgression(auth_service: AuthService, backend_service: BackendService) -> Union[Response, Text]:
         # Redirect the user if it is not login or if he has not the right role

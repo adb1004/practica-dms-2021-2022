@@ -10,6 +10,7 @@ from typing import Tuple, Union, Optional, List, Dict
 from http import HTTPStatus
 from flask import current_app, session
 
+# Method that answer a question
 def answer(qid: int, username: str, body: Dict, token_info: Dict) -> Tuple[Union[Dict,str], Optional[int]]:
     with current_app.app_context():
         try:
@@ -23,6 +24,7 @@ def answer(qid: int, username: str, body: Dict, token_info: Dict) -> Tuple[Union
     return (ans, HTTPStatus.OK.value)
 
 
+# All the answers from a particular user
 def answerListFromUser(username: str) -> Tuple[Union[List[Dict], str], Optional[int]]:
     with current_app.app_context():
         try:
@@ -31,7 +33,7 @@ def answerListFromUser(username: str) -> Tuple[Union[List[Dict], str], Optional[
             return ('An argument is missing', HTTPStatus.BAD_REQUEST.value)        
     return (answerList, HTTPStatus.OK.value)
 
-
+# All the answers from a particular question
 def answerListFromQuestion(qid: int) -> Tuple[Union[List[Dict], str], Optional[int]]:
     with current_app.app_context():
         try:
@@ -40,6 +42,7 @@ def answerListFromQuestion(qid: int) -> Tuple[Union[List[Dict], str], Optional[i
             return ('An argument is missing', HTTPStatus.BAD_REQUEST.value)        
     return (answerList, HTTPStatus.OK.value)
 
+# All the answers of a particualar question if the user is a teacher
 def questionHasAnswers(qid:int, token_info: Dict) -> Tuple[Union[bool, str], Optional[int]]:
     with current_app.app_context():
         try:
@@ -50,6 +53,7 @@ def questionHasAnswers(qid:int, token_info: Dict) -> Tuple[Union[bool, str], Opt
             return ('Invalid operation', HTTPStatus.FORBIDDEN.value)      
     return (answer, HTTPStatus.OK.value)
 
+# Answer form a particular user to a particular question
 def answerFromUserToQuestion(username: str, qid: int) -> Tuple[Union[Dict, str], Optional[int]]:
     with current_app.app_context():
         try:
@@ -58,6 +62,7 @@ def answerFromUserToQuestion(username: str, qid: int) -> Tuple[Union[Dict, str],
             return ('An argument is missing', HTTPStatus.BAD_REQUEST.value)        
     return (answer, HTTPStatus.OK.value)
 
+# All the answers
 def allAnswers() -> Tuple[List[Dict], Optional[int]]:
     with current_app.app_context():
         ans: List[Dict] = AnswersServices.allAnswers(current_app.db)

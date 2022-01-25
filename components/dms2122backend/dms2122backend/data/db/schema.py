@@ -8,12 +8,16 @@ from sqlalchemy.orm.session import Session
 
 @event.listens_for(Engine, 'connect')
 
+# Method that establish the foreign keys from SQLite
 def set_sqlite_pragma(dbapi_connection, connection_record):
     cursor = dbapi_connection.cursor()
     cursor.execute('PRAGMA foreign_keys = ON;')
     cursor.close()
 
+# Class for the schema
 class Schema():
+    
+    # Constructor
     def __init__(self, config: BackendConfiguration):
         self.__declarative_base = declarative_base()
 
@@ -29,9 +33,8 @@ class Schema():
         Answer.map(self.__declarative_base.metadata)
         self.__declarative_base.metadata.create_all(self.__create_engine)
 
+    # Method that creates a new session
+    def new_session(self) -> Session: return self.__session_maker()
 
-    def new_session(self) -> Session:
-        return self.__session_maker()
-
-    def remove_session(self) -> None:
-        self.__session_maker.remove()
+    # Method that removes a existing session
+    def remove_session(self) -> None: self.__session_maker.remove()

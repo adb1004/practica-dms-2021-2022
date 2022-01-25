@@ -5,8 +5,10 @@ from dms2122backend.data.db.results import Question
 from typing import  Dict, List, Optional
 from sqlalchemy.orm.session import Session
 
+# Class that manages the service of the questions
 class QuestionsService():
 
+    # Returns a question from its question id
     @staticmethod
     def getQuestionFromId(qid: int, schema: Schema)-> Dict:
         session: Session = schema.new_session()
@@ -31,6 +33,7 @@ class QuestionsService():
 
         return o
 
+    # All the questions
     @staticmethod
     def list_questions(schema: Schema) -> List[Dict]:
         o: List[Dict] = []
@@ -43,6 +46,7 @@ class QuestionsService():
         schema.remove_session()
         return o
 
+    # Method that creates a question
     @staticmethod
     def create_question(auth_service: AuthService, token_info: Dict, title:str, desc:str, c_1:str, c_2:str, c_3:str, c_4:str, c_right:int, puntuation: float, penalization: float, schema: Schema) -> Dict:
         session: Session = schema.new_session()
@@ -65,6 +69,7 @@ class QuestionsService():
             schema.remove_session()
         return o
     
+    # Method that modifies an existing question
     @staticmethod
     def modify_question(auth_service: AuthService, token_info: Dict, qid: int, title: str,  desc: str, c_1: str, c_2: str, c_3: str, c_4: str, c_right: int, puntuation: float, penalization: float, schema: Schema) -> Optional[Question]:
         session: Session = schema.new_session()
@@ -87,6 +92,7 @@ class QuestionsService():
             schema.remove_session()
         return o
 
+    # All the questions incompleted from a particular user
     @staticmethod
     def questionsIncompletedFromUser(schema: Schema, user: str) -> List[Dict]:
         o: List[Dict] = []
@@ -100,6 +106,7 @@ class QuestionsService():
         finally: schema.remove_session()
         return o
 
+    # All the questions completed from a particular user
     @staticmethod
     def questionsCompletedFromUser(schema: Schema, user: str) -> List[Dict]:
         o: List[Dict] = []

@@ -4,10 +4,11 @@ from sqlalchemy import Table, Column, Integer, Float,String, MetaData
 from sqlalchemy.orm import relationship
 from typing import Dict
 
+# Class that determines how a question db entry is going to be
 class Question(Base):
 
+    #Constructor
     def __init__(self, title:str, desc:str, c_1:str, c_2:str, c_3:str, c_4:str, c_right:int, puntuation: float, penalization: float):
-        #Constructor
         self.title: str = title
         self.desc: str = desc
         self.c_1: str = c_1
@@ -18,10 +19,12 @@ class Question(Base):
         self.puntuation: float = puntuation
         self.penalization: float = penalization
 
+    # Properties of the table
     @staticmethod
     def _mapping_properties() -> Dict:
         return { 'questions': relationship(Answer, backref='question')}
     
+    # How the db table of a question is going to be
     @staticmethod
     def _table_definition(metadata: MetaData) -> Table:
         return Table(

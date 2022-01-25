@@ -3,8 +3,10 @@ from dms2122backend.logic.logicstatistics import LogicStatistics
 from typing import List, Optional, Dict
 from sqlalchemy.orm.session import Session
 
+# Class that manages the service of the statistics
 class StatisticsServices():
     
+    # Returns the statistics from a particular user
     @staticmethod
     def userStatistics(username: str, schema: Schema)-> Dict:
         session: Session = schema.new_session()
@@ -17,6 +19,7 @@ class StatisticsServices():
         
         return o
 
+    # Returns the statistics from all the users
     @staticmethod
     def usersStatistics(schema: Schema)-> List[Dict]:
         session: Session = schema.new_session()
@@ -29,6 +32,7 @@ class StatisticsServices():
         
         return o
 
+    # Returns the statistics from all the questions
     @staticmethod
     def questionsStatistics(schema: Schema) -> List[Dict]:
         session: Session = schema.new_session()

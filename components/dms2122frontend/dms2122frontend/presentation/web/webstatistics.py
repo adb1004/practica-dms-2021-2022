@@ -4,14 +4,17 @@ from typing import Dict, List, Optional
 from flask import session
 from .webutils import WebUtils
 
-
+# Statistics web class
 class WebStatistics():
+
+    # All statistics from all users
     @staticmethod
     def userStatistics(backend_service: BackendService, username: str) -> Optional[Dict]:
         rp: ResponseData = backend_service.userStatistics(session.get('token'), username)
         WebUtils.flash_response_messages(rp)
         return rp.get_content()
 
+    # All statistics from a particular question
     @staticmethod
     def questionStatistics(backend_service: BackendService) -> Optional[Dict]:
         rp: ResponseData = backend_service.questionStatistics(session.get('token'))
@@ -20,6 +23,7 @@ class WebStatistics():
             return list(rp.get_content())
         return [] 
 
+    # All statistics from all users
     @staticmethod
     def usersStatistics(backend_service: BackendService) -> Optional[List[Dict]]:
         rp: ResponseData = backend_service.usersStatistics(session.get('token'))

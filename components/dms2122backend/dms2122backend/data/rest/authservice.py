@@ -3,8 +3,10 @@ import requests
 from dms2122common.data import Role
 from dms2122common.data.rest import ResponseData
 
-
+# Client that connects to te authentication service
 class AuthService():
+    
+    # Constructor
     def __init__(self,host: str, port: int, api_base_path: str = '/api/v1', apikey_header: str = 'X-ApiKey-Auth', apikey_secret: str = ''):
         self.__host: str = host
         self.__port: int = port
@@ -12,6 +14,7 @@ class AuthService():
         self.__apikey_header: str = apikey_header
         self.__apikey_secret: str = apikey_secret
 
+    # Method that returns the roles from a user
     def get_user_has_role(self, token: Optional[str], username: str, rolename: str) -> ResponseData:
         rp_data: ResponseData = ResponseData()
         rp: requests.Response = requests.get(
@@ -28,9 +31,11 @@ class AuthService():
 
         return rp_data
 
+    # Base URL
     def __base_url(self) -> str:
         return f'http://{self.__host}:{self.__port}{self.__api_base_path}'
 
+    # All the users
     def total_users(self, token: Optional[str]) -> ResponseData:
         rp_data: ResponseData = ResponseData()
         rp: requests.Response = requests.get(

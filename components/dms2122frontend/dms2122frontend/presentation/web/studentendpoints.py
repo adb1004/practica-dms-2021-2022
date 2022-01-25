@@ -34,6 +34,7 @@ class StudentEndpoints():
         name = session['user']
         return render_template('student.html', name=name, roles=session['roles'])
 
+    # Get request from student progression
     @staticmethod
     def get_sProgression(auth_service: AuthService, backend_service: BackendService) -> Union[Response, Text]:
         # Redirect the user if it is not login or if he has not the right role
@@ -45,6 +46,7 @@ class StudentEndpoints():
         name = session['user']
         return render_template('sProgression.html', name=name, roles=session['roles'], statistics=WebStatistics.userStatistics(backend_service, name))
     
+    # Get request from student questions
     @staticmethod
     def get_sQuestions(auth_service: AuthService) -> Union[Response, Text]:
         # Redirect the user if it is not login or if he has not the right role
@@ -56,6 +58,7 @@ class StudentEndpoints():
         name = session['user']
         return render_template('sQuestions.html', name=name, roles=session['roles'])
     
+    # Get request from student completed questions
     @staticmethod
     def get_sQuestionsCompleted(auth_service: AuthService, backend_service: BackendService) -> Union[Response, Text]:
         # Redirect the user if it is not login or if he has not the right role
@@ -67,6 +70,7 @@ class StudentEndpoints():
         name = session['user']
         return render_template('sQuestionsCompleted.html', name=name, roles=session['roles'], questions=WebQuestion.questionsCompletedFromUser(backend_service, name))
     
+    # Get request from student displaying completed questions
     @staticmethod
     def get_sQuestionsCompletedDisplay(auth_service: AuthService, backend_service: BackendService) -> Union[Response, Text]:
         # Redirect the user if it is not login or if he has not the right role
@@ -80,6 +84,7 @@ class StudentEndpoints():
         name = session['user']
         return render_template('sQuestionsCompleted-Display.html', name=name, roles=session['roles'], afterSave=afterSave, question = WebQuestion.get_question(backend_service, qid), answer=WebAnswer.get_answer(backend_service, name, qid))
     
+    # Get request from student imcompleted questions
     @staticmethod
     def get_sQuestionsIncompleted(auth_service: AuthService, backend_service: BackendService) -> Union[Response, Text]:
         # Redirect the user if it is not login or if he has not the right role
@@ -92,6 +97,7 @@ class StudentEndpoints():
         name = session['user']
         return render_template('sQuestionsIncompleted.html', name=name, roles=session['roles'], arrayIncompleted=WebQuestion.questionsIncompletedFromUser(backend_service, name))
     
+    # Get request from student complete incompleted questions
     @staticmethod
     def get_sQuestionsIncompletedComplete(auth_service: AuthService, backend_service: BackendService) -> Union[Response, Text]:
         # Redirect the user if it is not login or if he has not the right role
@@ -104,6 +110,7 @@ class StudentEndpoints():
         name = session['user']
         return render_template('sQuestionsIncompleted-Complete.html', name=name, roles=session['roles'], afterSave=afterSave, question = WebQuestion.get_question(backend_service ,qid))
     
+    # Post request from student complete incompleted questions
     @staticmethod
     def post_sQuestionsIncompletedComplete(auth_service: AuthService, backend_service: BackendService) -> Union[Response, Text]:
         # Redirect the user if it is not login or if he has not the right role

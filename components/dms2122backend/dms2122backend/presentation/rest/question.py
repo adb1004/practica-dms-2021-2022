@@ -9,12 +9,13 @@ from typing import Tuple, Union, Optional, List, Dict
 from http import HTTPStatus
 from flask import current_app, session
 
-
+# All the questions
 def list_questions() -> Tuple[List[Dict], Optional[int]]:
     with current_app.app_context():
         questions: List[Dict] = QuestionsService.list_questions(current_app.db)
     return (questions, HTTPStatus.OK.value)
 
+# Method that creates a question
 def create_question(body: Dict, token_info: Dict) -> Tuple[Union[Dict, str], Optional[int]]:
     with current_app.app_context():
         try:
@@ -26,6 +27,7 @@ def create_question(body: Dict, token_info: Dict) -> Tuple[Union[Dict, str], Opt
         except QuestionAlreadyExist:  return ('That question already exist', HTTPStatus.CONFLICT.value)
     return (question, HTTPStatus.OK.value)
 
+# A question from its questoin id
 def get_question_by_id(qid: int) -> Tuple[Union[Dict, str], Optional[int]]:
     with current_app.app_context():
         try:
@@ -35,6 +37,7 @@ def get_question_by_id(qid: int) -> Tuple[Union[Dict, str], Optional[int]]:
         except ValueError: return ('An argument is missing', HTTPStatus.BAD_REQUEST.value)        
     return (question, HTTPStatus.OK.value)
 
+# Modifies a question
 def modify_question(body: Dict, qid: int, token_info: Dict) -> Tuple[Union[Dict, str], Optional[int]]:
     with current_app.app_context():
         try:
@@ -46,6 +49,7 @@ def modify_question(body: Dict, qid: int, token_info: Dict) -> Tuple[Union[Dict,
         except NotValidOperation: return ('Invalid operation', HTTPStatus.FORBIDDEN.value)
     return (question, HTTPStatus.OK.value)
 
+# Questions not completed from a user
 def questionsIncompletedFromUser(username: str) -> Tuple[Union[List[Dict], str], Optional[int]]:
     with current_app.app_context():
         try:
@@ -53,6 +57,7 @@ def questionsIncompletedFromUser(username: str) -> Tuple[Union[List[Dict], str],
         except ValueError: return ('An argument is missing', HTTPStatus.BAD_REQUEST.value)   
     return (questions, HTTPStatus.OK.value)
 
+# Questions completed from a user
 def questionsCompletedFromUser(username: str) -> Tuple[Union[List[Dict], str], Optional[int]]:
     with current_app.app_context():
         try:

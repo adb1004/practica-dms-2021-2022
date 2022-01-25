@@ -10,7 +10,10 @@ from dms2122common.data.rest import ResponseData
 from typing import List, Optional, Dict
 from sqlalchemy.orm.session import Session  
 
+# Class that manages the logic behind the questions
 class LogicQuestion():
+    
+    # Creates a question
     @staticmethod
     def create(auth_service: AuthService, token_info: Dict, session: Session, title: str,  desc: str, c_1: str, c_2: str, c_3: str, c_4: str, c_right: int, puntuation: float, penalization: float) -> Optional[Question]:       
         try:
@@ -20,6 +23,7 @@ class LogicQuestion():
        
         return nQuestion
 
+    # All the questions
     @staticmethod
     def questionsList(session: Session) -> List[List]:
         questionsList : List[List] = []
@@ -31,6 +35,7 @@ class LogicQuestion():
         
         return questionsList
 
+    # Returns a question from its question id
     @staticmethod
     def getQuestionFromId(session: Session, qid: int,) -> Optional[Question]:
         try:
@@ -39,6 +44,7 @@ class LogicQuestion():
         
         return question
 
+    # Modifies a question
     @staticmethod
     def modify(auth_service: AuthService, token_info: Dict, session: Session, qid: int, title: str,  desc: str, c_1: str, c_2: str, c_3: str, c_4: str, c_right: int, puntuation: float, penalization: float) -> Question:
         try:
@@ -47,6 +53,7 @@ class LogicQuestion():
         
         return question
 
+    # Returns all the questions not completed from a user
     @staticmethod
     def questionsIncompletedFromUser(session: Session, user: str) -> List[Question]:
         try:
@@ -60,6 +67,7 @@ class LogicQuestion():
         except Exception as exception: raise exception
         return incompleted
 
+    # Returns all the questions completed from a user
     @staticmethod
     def questionsCompletedFromUser(session: Session, user: str) -> List[List]:
         try:

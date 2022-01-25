@@ -5,8 +5,10 @@ from dms2122backend.data.db.results import Answer, Question
 from typing import List, Dict, Optional
 from sqlalchemy.orm.session import Session
 
-
+# Class that manages the logic behind the statistics
 class LogicStatistics():
+
+    # Totality of all the questions puntuation
     @staticmethod
     def totalQuestionsPuntuation(session: Session)->float:
         questions : List[List] = LogicQuestion.questionsList(session)
@@ -18,6 +20,7 @@ class LogicStatistics():
         
         return score
 
+    # Statistics from a user
     @staticmethod
     def userStatistics(session: Session, user: str)-> Dict:
         statistics: Dict = {}
@@ -52,6 +55,7 @@ class LogicStatistics():
             return statistics
         except Exception as exception: raise exception
 
+    # Statistics from all the users
     @staticmethod
     def usersStatistics(session: Session) -> List[Dict]:
         try:
@@ -72,6 +76,7 @@ class LogicStatistics():
             return v
         except Exception as exception: raise exception
 
+    # All the statistics from all the questions
     @staticmethod
     def questionsStatistics(session: Session)-> List[Dict]:
         try:

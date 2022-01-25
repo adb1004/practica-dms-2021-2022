@@ -5,8 +5,10 @@ from dms2122backend.data.rest.authservice import AuthService
 from typing import List, Optional, Dict
 from sqlalchemy.orm.session import Session 
 
-
+# Class that manages the service of the answers
 class AnswersServices():
+
+    # Answers a question
     @staticmethod
     def answer(auth_service: AuthService, username: str, id: int, qid: int, schema: Schema, token_info: Dict) -> Dict:
         o: Dict = {}
@@ -22,6 +24,7 @@ class AnswersServices():
         finally: schema.remove_session()
         return o
 
+    # All answers from a particular user
     @staticmethod
     def answerListFromUser(username: str, schema: Schema) -> List[Dict]:
         o: List[Dict] = []
@@ -35,7 +38,7 @@ class AnswersServices():
         finally: schema.remove_session()
         return o
 
-
+    # All answers from a particular question
     @staticmethod
     def answerListFromQuestion(qid: int, schema: Schema) -> List[Dict]:
         o: List[Dict] = []
@@ -49,6 +52,7 @@ class AnswersServices():
         finally: schema.remove_session()
         return o
 
+    # Gets if a question has an answer
     @staticmethod
     def questionHasAnswers(auth_service: AuthService, token_info: Dict, qid: int, schema: Schema) -> bool:
         session: Session = schema.new_session()
@@ -59,6 +63,7 @@ class AnswersServices():
         finally: schema.remove_session()
         return answer 
     
+    # Returns an answer from a particular user to a particular question
     @staticmethod
     def answerFromUserToQuestion(user: str, qid: int, schema: Schema) -> Dict:
         o: Dict = {}
@@ -74,6 +79,7 @@ class AnswersServices():
         finally: schema.remove_session()
         return o 
 
+    # Returs the puntuation from a particular answer
     @staticmethod
     def answerScore(answer: Answer, schema: Schema) -> Optional[float]:
         session: Session = schema.new_session()   
@@ -87,6 +93,7 @@ class AnswersServices():
         except Exception as exception: raise excepton
         finally: schema.remove_session()
     
+    # Returns all the answers
     @staticmethod
     def allAnswers(schema: Schema) -> List[Dict]:
         o: List[Dict] = []

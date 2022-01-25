@@ -3,6 +3,7 @@ from flask import current_app, session
 from typing import List, Dict, Tuple, Union, Optional
 from http import HTTPStatus
 
+# Statistics from a particular user
 def userStatistics(username: str) -> Tuple[Union[Dict, str], Optional[int]]:
     with current_app.app_context():
         try:
@@ -12,6 +13,7 @@ def userStatistics(username: str) -> Tuple[Union[Dict, str], Optional[int]]:
         except ValueError: return ('An argument is missing', HTTPStatus.BAD_REQUEST.value)        
     return (uStatistics, HTTPStatus.OK.value)
 
+# Statistics from all the users
 def usersStatistics() -> Tuple[Union[List[Dict], str], Optional[int]]:
     with current_app.app_context():
         try:
@@ -19,6 +21,7 @@ def usersStatistics() -> Tuple[Union[List[Dict], str], Optional[int]]:
         except ValueError: return ('An argument is missing', HTTPStatus.BAD_REQUEST.value)        
     return (uStatistics, HTTPStatus.OK.value) 
 
+# Statistics from all the questions
 def questionsStatistics() -> Tuple[Union[List[Dict], str], Optional[int]]:
     with current_app.app_context():
         try:
