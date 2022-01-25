@@ -2,6 +2,42 @@
 
 This frontend serves as the human interface for the other services of the appliance.
 
+## Memoria - Frontend
+
+Todos los ficheros HTML incorporados por nosotros se encuentran dentro de la carpeta /templates. A su vez, todo lo relativo a los estilos se encuentra en el fichero css /static/styles.css
+
+Ficheros implementados:
+  - `sProgression.html`: Muestra el progreso del estudiante. Bloques utilizados: contentsubheading, studentcontent y progressioncontent
+  - `sQuestions.html`: Muestra el panel relativo a las preguntas de los estudiantes. Bloques utilizados: contentsubheading, studentcontent y squestioncontent
+  - `sQuestionsCompleted-Display.html`: Muestra la pregunta en cuestión respondida por el estudiante. Bloques utilizados: contentsubheading, studentcontent, squestioncontent, squestioncompletedcontent y displaycontent
+  - `sQuestionsCompleted.html`: Muestra las preguntas respondidas por el estudiante. Bloques utilizados: contentsubheading, studentcontent, squestioncontent, squestioncompletedcontent.
+  - `sQuestionsIncompleted-Complete.html`: Muestra la plantilla para responder a una pregunta en cuestión. Bloques utilizados: contentsubheading, studentcontent, squestioncontent, squestionincompletedcontent y completecontent.
+  - `sQuestionsIncompleted.html`: Muestra las preguntas no respondidas por el estudiante. Bloques utilizados: contentsubheading, studentcontent, squestioncontent y squestionincompletedcontent.
+  - `tQuestions.html`: Muestra el panel relativo al manejo de preguntas desde la parte del profesor. Bloques utilizados: contentsubheading, teachercontent, tquestioncontent.
+  - `tQuestionsCreate.html`: Muestra el panel para la creación de preguntas. Bloques utilizados: contentsubheading, teachercontent, tquestioncontent y tquestioncreatecontent.
+  - `tQuestionsDisplay.html`: Muestra la "demo" de una pregunta en cuestión como si fuera la perspectiva de un alumno. Bloques utilizados: contentsubheading, teachercontent, tquestioncontent y tquestiondisplaycontent.
+  - `tQuestionsModify.html`: Muestra el panel de edición de una pregunta. Bloques utilizados contentsubheading, teachercontent, tquestioncontent y tquestionmodifycontent.
+  - `tQuestionsProgressions.html`: Muestra las estadísticas relativas a las distintas preguntas. Bloques utilizados: contentsubheading, teachercontent y questionprogressioncontent
+  - `tStudents.html`: Muestra las estadísticas de los distintos estudiantes en cuanto a las preguntas. Bloques utilizados: contentsubheading, teachercontent y tstudentcontent
+
+
+
+### Endpoints
+
+  Estos se encuentran declarados en /bin/dms2122frontend y cada uno llamará a su respectivo semejante de la capa visible. En concreto son:
+  - /dms2122frontend/presentation/web/`adminendpoints.py`
+  - /dms2122frontend//presentation/web/`commonendpoints.py`
+  - /dms2122frontend//presentation/web/`sessionendpoints.py`
+  - /dms2122frontend//presentation/web/`studentendpoints.py`
+  - /dms2122frontend//presentation/web/`teacherendpoints.py`
+  
+  Al estar divididos los endpoints de esta manera conseguimos que los principios de Interface Segregation y Single Responsibility se cumplan.
+  
+### Comunicación Frontend - Backend
+  Para la comunicación desde el frontend al backend existe una clase de la capa de datos llamada `BackendService` que realiza llamadas a los distintos métodos a traves de los endpoints de la API. En la capa visible de presentación se han implementado las clases `WebAnswer`, `WebQuestion` y `WebStatistics` que realizan cada una sus respectivas operaciónes a través del backend. Estas son las clases utilizadas desde los endpoints una vez sus métodos son llamados al acceder a una de las páginas.
+
+
+
 ## Installation
 
 Run `./install.sh` for an automated installation.
