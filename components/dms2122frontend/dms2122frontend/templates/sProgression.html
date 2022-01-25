@@ -2,6 +2,26 @@
 {% block contentsubheading %}Student - Progression{% endblock %}
 {% block studentcontent %}
     {% block progressioncontent %}
-    <p class="yellowbg">Under construction</p>
+    <table>
+        <tbody>
+            <tr>
+                <th>Total Score</th>
+                <th>{{statistics['uScore']}}</th>
+            </tr>
+            <tr>
+                <th>Number of completed questions</th>
+                <th>{{statistics['nAnswers']}}</th>
+            </tr>
+          <tr><th><td>&nbsp;</td></th><th><td>&nbsp;</td></th></tr>
+            <tr>
+                <th>Score / answered questions</th>
+                <th>{{statistics['scoreCompleted']}}</th>
+            </tr>
+            <tr>
+                <th>Score / all the questions</th>
+                <th>{{statistics['totalScore']}}</th>
+            </tr>
+        </tbody>
+    </table>
     {% endblock %}
 {% endblock %}

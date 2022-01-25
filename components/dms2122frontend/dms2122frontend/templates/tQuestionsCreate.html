@@ -1,4 +1,5 @@
 {% extends "teacher.html" %}
+{% from "macros/buttons.html" import button, submit_button %}
 {% block contentsubheading %}Teacher - Questions - Create{% endblock %}
 {% block teachercontent %}
     {% block tquestioncontent %}
@@ -20,8 +21,8 @@
              <h3>Penalization</h3>
                  <input type="number" name="penalization" max="0" step="0.10"/>
              <br/><br/>
-             <a href="{{afterSave}}">Save</a>
-             <br/>
+             {{submit_button('redbg', 'Save')}}
+             <br/><br/>
              <a href="/tQuestions">Cancel</a>
         </form>
         {% endblock %}

@@ -14,11 +14,11 @@
         </div>
     </div>
     {{ flashedmessages() }}
-    <div id="contentheader">
+    <div id="contentheader" style="background-color: #e8e88b">
         <h1>{% block contentheading %}{% endblock %}</h1>
         <h2>{% block contentsubheading %}&nbsp;{% endblock %}</h2>
     </div>
-    <div id="main-content">
+    <div id="main-content"  style="background-color: #fafabe">
         {% block maincontent %}{% endblock %}
     </div>
 {% endblock %}

@@ -58,3 +58,9 @@ class Answers():
             user=user, qid=qid
         )
         return query.one_or_none() 
+
+    @staticmethod
+    def allAnswers(session: Session) -> List[Answer]:
+        query = session.query(Answer)
+        return query.all()
+

@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 from dms2122common.data import Role
 from dms2122backend.data.config import BackendConfiguration
 from dms2122backend.data.db import Schema
@@ -11,6 +10,11 @@ cfg.load_from_file(cfg.default_config_file())
 db: Schema = Schema(cfg)
 
 session: Session = db.new_session()
+
 Questions.create(session, "Title 1", "desc 1", "choice 1", "choice 2", "choice 3", "choice 4", 2, 1.5, -0.5)
 Questions.create(session, "Title 2", "desc 2", "choice 1", "choice 2", "choice 3", "choice 4", 1, 2.0, -1.5)
+Questions.create(session, "Title 3", "desc 3", "choice 1", "choice 2", "choice 3", "choice 4", 3, 3.0, -1.0)
+Answers.answer(session, "admin", 2, 1)
+Answers.answer(session, "admin", 1, 2)
+
 db.remove_session() 

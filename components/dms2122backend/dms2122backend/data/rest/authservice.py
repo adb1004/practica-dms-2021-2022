@@ -13,24 +13,35 @@ class AuthService():
         self.__apikey_secret: str = apikey_secret
 
     def get_user_has_role(self, token: Optional[str], username: str, rolename: str) -> ResponseData:
-        response_data: ResponseData = ResponseData()
-        response: requests.Response = requests.get(
-            self.__base_url() + f'/user/{username}/role/{rolename}',
-            headers={
-                'Authorization': f'Bearer {token}',
-                self.__apikey_header: self.__apikey_secret
-            }
+        rp_data: ResponseData = ResponseData()
+        rp: requests.Response = requests.get(
+            self.__base_url() + f'/user/{username}/role/{rolename}', headers={'Authorization': f'Bearer {token}', self.__apikey_header: self.__apikey_secret}
         )
 
-        response_data.set_successful(response.ok)
+        rp_data.set_successful(rp.ok)
 
-        if response_data.is_successful():
-            response_data.set_content(response.json())
+        if rp_data.is_successful():
+            rp_data.set_content(rp.json())
         else:
-            response_data.add_message(response.content.decode('ascii'))
-            response_data.set_content([])
+            rp_data.add_message(rp.content.decode('ascii'))
+            rp_data.set_content([])
 
-        return response_data
+        return rp_data
 
     def __base_url(self) -> str:
         return f'http://{self.__host}:{self.__port}{self.__api_base_path}'
+
+    def total_users(self, token: Optional[str]) -> ResponseData:
+        rp_data: ResponseData = ResponseData()
+        rp: requests.Response = requests.get(
+            self.__base_url() + '/users', headers={'Authorization': f'Bearer {token}', self.__apikey_header: self.__apikey_secret}
+        )
+        rp_data.set_successful(rp.ok)
+        
+        if rp_data.is_successful():
+            rp_data.set_content(rp.json())
+        else:
+            rp_data.add_message(rp.content.decode('ascii'))
+            rp_data.set_content([])
+        
+        return rp_data 

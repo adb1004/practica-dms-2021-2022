@@ -6,10 +6,10 @@
         {% block squestionincompletedcontent %}
             <br/>
             <h4>Incompleted questions:</h4>
-            {% for i in arrayIncompleted %}
+            {% for q in arrayIncompleted %}
                 <tr>
-                    <td>{{ i['title'] }}</td>
-                    <td>{{ button('redbg', '/sQuestions/incompleted/complete?afterSave=/sQuestions&title=' + i['title'], 'Answer') }}</td>
+                    <td>{{q['title']}}</td>
+                    <td>{{button('redbg', '/sQuestions/incompleted/complete?afterSave=/sQuestions&qid=' + q['qid']|string, 'Complete')}}</td>
                     <br/>
                 </tr>
             {% endfor %}

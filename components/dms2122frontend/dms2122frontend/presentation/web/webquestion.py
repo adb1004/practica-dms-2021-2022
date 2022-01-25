@@ -28,7 +28,7 @@ class WebQuestion():
 
     @staticmethod
     def modify_question(backend_service: BackendService, qid: int, title: str,  desc: str, c_1: str, c_2: str, c_3: str, c_4 : str, c_right: int, puntuation: float, penalization: float) -> bool:
-        response: ResponseData = backend_service.modify_question(session.get('token'), qid, title, desc, c_1, c_2, c_3, c_right, puntuation, penalization)
+        response: ResponseData = backend_service.modify_question(session.get('token'), qid, title, desc, c_1, c_2, c_3, c_4, c_right, puntuation, penalization)
         WebUtils.flash_response_messages(response)
         return response.is_successful()
 
@@ -37,3 +37,19 @@ class WebQuestion():
         response: ResponseData = backend_service.questionHasAnswers(session.get('token'), qid)
         WebUtils.flash_response_messages(response)
         return response.is_successful()
+
+    @staticmethod
+    def questionsIncompletedFromUser(backend_service: BackendService, username: str) -> List:
+        response: ResponseData = backend_service.questionsIncompletedFromUser(session.get('token'), username)
+        WebUtils.flash_response_messages(response)
+        if response.get_content() is not None and isinstance(response.get_content(), list):
+            return list(response.get_content())
+        return []
+
+    @staticmethod
+    def questionsCompletedFromUser(backend_service: BackendService, username: str) -> List:
+        response: ResponseData = backend_service.questionsCompletedFromUser(session.get('token'), username)
+        WebUtils.flash_response_messages(response)
+        if response.get_content() is not None and isinstance(response.get_content(), list):
+            return list(response.get_content())
+        return []

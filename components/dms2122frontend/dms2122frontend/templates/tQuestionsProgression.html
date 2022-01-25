@@ -2,6 +2,41 @@
 {% block contentsubheading %}Teacher - Questions - Progression{% endblock %}
 {% block tquestioncontent %}
     {% block progressioncontent %}
-    <p class="yellowbg">Under construction</p>
+    <table>
+        <tbody>
+            <tr>
+                <td>Title</td>
+                <td>{{statics['title']}}</td>
+            </tr>
+            <tr>
+                <td>Answers</td>
+                <td>{{statics['n_answers']}}</td>
+            </tr>
+            <tr>
+                <td>AVG</td>
+                <td>{{statics['avg']}}</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>Choice 1</td>
+                <td>{{statics['n_c1']}}</td>
+            </tr>
+            <tr>
+                <td>Choice 2</td>
+                <td>{{statics['n_c2']}}</td>
+            </tr>
+            <tr>
+                <td>Choice 3</td>
+                <td>{{statics['n_c3']}}</td>
+            </tr>
+            <tr>
+                <td>Choice 4</td>
+                <td>{{statics['n_c4']}}</td>
+            </tr>
+        </tbody>
+    </table>
     {% endblock %}
 {% endblock %}

@@ -10,27 +10,23 @@ from typing import Tuple, Union, Optional, List, Dict
 from http import HTTPStatus
 from flask import current_app, session
 
-def answer(body: Dict, token_info: Dict) -> Tuple[Optional[str], Optional[int]]:
+def answer(qid: int, username: str, body: Dict, token_info: Dict) -> Tuple[Union[Dict,str], Optional[int]]:
     with current_app.app_context():
         try:
-            AnswersServices.answer(
-                current_app.authservice, token_info, body['username'],  body['id'], body['qid']
-            )
+            ans = AnswersServices.answer(current_app.authservice, body['username'],  body['id'], body['qid'], current_app.db, token_info)
         except ValueError:
             return ('An argument is missing', HTTPStatus.BAD_REQUEST.value)
         except QuestionOrUserNotCreated:
             return ('That question or that user are not created', HTTPStatus.NOT_FOUND.value)
         except NotValidOperation:
             return ('Invalid operation', HTTPStatus.FORBIDDEN.value)
-    return (None, HTTPStatus.OK.value)
+    return (ans, HTTPStatus.OK.value)
 
 
 def answerListFromUser(username: str) -> Tuple[Union[List[Dict], str], Optional[int]]:
     with current_app.app_context():
         try:
-            answerList: List[Dict] = AnswersServices.answerListFromUser(
-                username, current_app.db
-            )
+            answerList: List[Dict] = AnswersServices.answerListFromUser(username, current_app.db)
         except ValueError:
             return ('An argument is missing', HTTPStatus.BAD_REQUEST.value)        
     return (answerList, HTTPStatus.OK.value)
@@ -39,9 +35,7 @@ def answerListFromUser(username: str) -> Tuple[Union[List[Dict], str], Optional[
 def answerListFromQuestion(qid: int) -> Tuple[Union[List[Dict], str], Optional[int]]:
     with current_app.app_context():
         try:
-            answerList: List[Dict] = AnswersServices.answerListFromQuestion(
-                qid, current_app.db
-            )
+            answerList: List[Dict] = AnswersServices.answerListFromQuestion(qid, current_app.db)
         except ValueError:
             return ('An argument is missing', HTTPStatus.BAD_REQUEST.value)        
     return (answerList, HTTPStatus.OK.value)
@@ -49,9 +43,7 @@ def answerListFromQuestion(qid: int) -> Tuple[Union[List[Dict], str], Optional[i
 def questionHasAnswers(qid:int, token_info: Dict) -> Tuple[Union[bool, str], Optional[int]]:
     with current_app.app_context():
         try:
-            answer = AnswersServices.questionHasAnswers(
-                current_app.authservice, token_info, qid, current_app.db
-            )
+            answer = AnswersServices.questionHasAnswers(current_app.authservice, token_info, qid, current_app.db)
         except ValueError:
             return ('An argument is missing', HTTPStatus.BAD_REQUEST.value)  
         except NotValidOperation:
@@ -61,9 +53,12 @@ def questionHasAnswers(qid:int, token_info: Dict) -> Tuple[Union[bool, str], Opt
 def answerFromUserToQuestion(username: str, qid: int) -> Tuple[Union[Dict, str], Optional[int]]:
     with current_app.app_context():
         try:
-            answer: Dict = AnswersServices.answerFromUserToQuestion(
-                username, qid, current_app.db
-            )
+            answer: Dict = AnswersServices.answerFromUserToQuestion(username, qid, current_app.db)
         except ValueError:
             return ('An argument is missing', HTTPStatus.BAD_REQUEST.value)        
     return (answer, HTTPStatus.OK.value)
+
+def allAnswers() -> Tuple[List[Dict], Optional[int]]:
+    with current_app.app_context():
+        ans: List[Dict] = AnswersServices.allAnswers(current_app.db)
+    return (ans, HTTPStatus.OK.value)

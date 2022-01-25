@@ -5,18 +5,18 @@
         {% block tquestiondisplaycontent %}
         <form action="/tQuestions/Display" method="post">
             <dl>
-                <h2>{{ question['title'] }}</h2>
-                <p>{{ question['desc'] }}</p>
+                <h2>{{question['title']}}</h2>
+                <p>{{question['desc']}}</p>
                 <h4>Choices:</h4>
                 <dd>
-                    <input type="radio" id="c_1" name="choices">{{ question['c_1'] }}<br>
-                    <input type="radio" id="c_2" name="choices">{{ question['c_2'] }}<br>
-                    <input type="radio" id="c_3" name="choices">{{ question['c_3'] }}<br>
-                    <input type="radio" id="c_4" name="choices">{{ question['c_4'] }}<br><br>
+                    <input type="radio" id="c_1" name="choices">{{question['c_1']}}<br>
+                    <input type="radio" id="c_2" name="choices">{{question['c_2']}}<br>
+                    <input type="radio" id="c_3" name="choices">{{question['c_3']}}<br>
+                    <input type="radio" id="c_4" name="choices">{{question['c_4']}}<br><br>
                     <input type="button" value="Send">
                 </dd>
-                <p><strong>Puntuation</strong> {{ question['puntuation'] }}</p>
-                <p><strong>Penalization</strong> {{ question['penalization'] }}</p>
+                <p><strong>Puntuation</strong> {{question['puntuation']}}</p>
+                <p><strong>Penalization</strong> {{question['penalization']}}</p>
             </dl>
           <a href="{{afterSave}}">Back</a>
         </form>

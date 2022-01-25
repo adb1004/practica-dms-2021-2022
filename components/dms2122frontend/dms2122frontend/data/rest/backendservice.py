@@ -35,26 +35,26 @@ class BackendService():
         return f'http://{self.__host}:{self.__port}{self.__api_base_path}'
 
     def list_questions(self, token: Optional[str]) -> ResponseData:
-        response_data: ResponseData = ResponseData()
-        response: requests.Response = requests.get(self.__base_url() + '/questions',
+        rp_data: ResponseData = ResponseData()
+        rp: requests.Response = requests.get(self.__base_url() + '/questions',
             headers={
                 'Authorization': f'Bearer {token}',
                 self.__apikey_header: self.__apikey_secret}
         )
 
-        response_data.set_successful(response.ok)
+        rp_data.set_successful(rp.ok)
 
-        if response_data.is_successful():
-            response_data.set_content(response.json())
+        if rp_data.is_successful():
+            rp_data.set_content(rp.json())
         else:
-            response_data.add_message(response.content.decode('ascii'))
-            response_data.set_content([])
+            rp_data.add_message(rp.content.decode('ascii'))
+            rp_data.set_content([])
         
-        return response_data
+        return rp_data
 
     def create_question(self, token: Optional[str], title: str,  desc: str, c_1: str, c_2: str, c_3: str, c_4: str, c_right: int, puntuation: float, penalization: float) -> ResponseData:
-        response_data: ResponseData = ResponseData()
-        response: requests.Response = requests.post(
+        rp_data: ResponseData = ResponseData()
+        rp: requests.Response = requests.post(
             self.__base_url() + '/question/create',
             json={
                 'title': title,
@@ -71,56 +71,56 @@ class BackendService():
                 'Authorization': f'Bearer {token}',
                 self.__apikey_header: self.__apikey_secret}
         )
-        response_data.set_successful(response.ok)
+        rp_data.set_successful(rp.ok)
 
-        if response_data.is_successful():
-            response_data.set_content(response.json())
+        if rp_data.is_successful():
+            rp_data.set_content(rp.json())
         else:
-            response_data.add_message(response.content.decode('ascii'))
+            rp_data.add_message(rp.content.decode('ascii'))
         
-        return response_data
+        return rp_data
 
     def get_question(self, token: Optional[str], qid: int) -> ResponseData:
-        response_data: ResponseData = ResponseData()
-        response: requests.Response = requests.get(
+        rp_data: ResponseData = ResponseData()
+        rp: requests.Response = requests.get(
             self.__base_url() + f'/question/{qid}',
             headers={
                 'Authorization': f'Bearer {token}',
                 self.__apikey_header: self.__apikey_secret}
         )
-        response_data.set_successful(response.ok)
+        rp_data.set_successful(rp.ok)
 
-        if response_data.is_successful():
-            response_data.set_content(response.json())
+        if rp_data.is_successful():
+            rp_data.set_content(rp.json())
         else:
-            response_data.add_message(response.content.decode('ascii'))
-            response_data.set_content([])
+            rp_data.add_message(rp.content.decode('ascii'))
+            rp_data.set_content([])
         
-        return response_data
+        return rp_data
 
 
     def questionHasAnswers(self, token: Optional[str], qid: int) -> ResponseData:
-        response_data: ResponseData = ResponseData()
-        response: requests.Response = requests.get(
+        rp_data: ResponseData = ResponseData()
+        rp: requests.Response = requests.get(
             self.__base_url() + f'/question/{qid}/ans',
             headers={
                 'Authorization': f'Bearer {token}',
                 self.__apikey_header: self.__apikey_secret})
 
-        response_data.set_successful(response.ok)
+        rp_data.set_successful(rp.ok)
 
-        if response_data.is_successful():
-            response_data.set_content(response.json())
+        if rp_data.is_successful():
+            rp_data.set_content(rp.json())
         else:
-            response_data.add_message(response.content.decode('ascii'))
-            response_data.set_content([])
+            rp_data.add_message(rp.content.decode('ascii'))
+            rp_data.set_content([])
         
-        return response_data
+        return rp_data
 
     def answer_question(self, token: Optional[str], qid: int, id: int, username: str) -> ResponseData:
-        response_data: ResponseData = ResponseData()
-        response: requests.Response = requests.post(
-            self.__base_url() + f'/question/{qid}/ans{username}',
+        rp_data: ResponseData = ResponseData()
+        rp: requests.Response = requests.post(
+            self.__base_url() + f'/question/{qid}/ans/{username}',
             json={
                 'username': username,
                 'id': id,
@@ -131,35 +131,35 @@ class BackendService():
                 self.__apikey_header: self.__apikey_secret
             }
         )
-        response_data.set_successful(response.ok)
+        rp_data.set_successful(rp.ok)
 
-        if response_data.is_successful():
-            response_data.set_content(response.json())
+        if rp_data.is_successful():
+            rp_data.set_content(rp.json())
         else:
-            response_data.add_message(response.content.decode('ascii'))
+            rp_data.add_message(rp.content.decode('ascii'))
          
-        return response_data
+        return rp_data
 
     def allAnswersFromQuestion(self, token: Optional[str], qid: int) -> ResponseData:
-        response_data: ResponseData = ResponseData()
-        response: requests.Response = requests.get(
+        rp_data: ResponseData = ResponseData()
+        rp: requests.Response = requests.get(
             self.__base_url() + f'/answers/{qid}',
             headers={
                 'Authorization': f'Bearer {token}',
                 self.__apikey_header: self.__apikey_secret
             }
         )
-        response_data.set_successful(response.ok)
-        if response_data.is_successful():
-            response_data.set_content(response.json())
+        rp_data.set_successful(rp.ok)
+        if rp_data.is_successful():
+            rp_data.set_content(rp.json())
         else:
-            response_data.add_message(response.content.decode('ascii'))
-            response_data.set_content([])
-        return response_data
+            rp_data.add_message(rp.content.decode('ascii'))
+            rp_data.set_content([])
+        return rp_data
 
     def allAnswersFromUsername(self, token: Optional[str], username: str) -> ResponseData:
-        response_data: ResponseData = ResponseData()
-        response: requests.Response = requests.get(
+        rp_data: ResponseData = ResponseData()
+        rp: requests.Response = requests.get(
             self.__base_url() + f'/answers/{username}',
             headers={
                 'Authorization': f'Bearer {token}',
@@ -167,19 +167,19 @@ class BackendService():
             }
         )
 
-        response_data.set_successful(response.ok)
+        rp_data.set_successful(rp.ok)
 
-        if response_data.is_successful():
-            response_data.set_content(response.json())
+        if rp_data.is_successful():
+            rp_data.set_content(rp.json())
         else:
-            response_data.add_message(response.content.decode('ascii'))
-            response_data.set_content([])
+            rp_data.add_message(rp.content.decode('ascii'))
+            rp_data.set_content([])
 
-        return response_data 
+        return rp_data 
 
     def modify_question(self, token: Optional[str], qid: int, title: str,  desc: str, c_1: str, c_2: str, c_3: str, c_4: str, c_right: int, puntuation: float, penalization: float) -> ResponseData:
-        response_data: ResponseData = ResponseData()
-        response: requests.Response = requests.post(
+        rp_data: ResponseData = ResponseData()
+        rp: requests.Response = requests.put(
             self.__base_url() + f'/question/{qid}',
             json={
                 'qid': qid,
@@ -189,7 +189,7 @@ class BackendService():
                 'c_2': c_2,
                 'c_3': c_3,
                 'c_4': c_4,
-                'c_right': correct_answer,
+                'c_right': c_right,
                 'puntuation': puntuation,
                 'penalization': penalization
             },
@@ -198,28 +198,121 @@ class BackendService():
                 self.__apikey_header: self.__apikey_secret
             }
         )
-        response_data.set_successful(response.ok)
-        if response_data.is_successful():
-            response_data.set_content(response.json())
+        rp_data.set_successful(rp.ok)
+        if rp_data.is_successful():
+            rp_data.set_content(rp.json())
         else:
-            response_data.add_message(response.content.decode('ascii'))
-        return response_data
+            rp_data.add_message(rp.content.decode('ascii'))
+        return rp_data
 
     def get_answer(self, token: Optional[str], username: str, qid: int) -> ResponseData:
-        response_data: ResponseData = ResponseData()
-        response: requests.Response = requests.get(
+        rp_data: ResponseData = ResponseData()
+        rp: requests.Response = requests.get(
             self.__base_url() + f'/question/{qid}/ans/{username}',
             headers={
                 'Authorization': f'Bearer {token}',
                 self.__apikey_header: self.__apikey_secret
             }
         )
-        response_data.set_successful(response.ok)
+        rp_data.set_successful(rp.ok)
 
-        if response_data.is_successful():
-            response_data.set_content(response.json())
+        if rp_data.is_successful():
+            rp_data.set_content(rp.json())
         else:
-            response_data.add_message(response.content.decode('ascii'))
-            response_data.set_content([])
+            rp_data.add_message(rp.content.decode('ascii'))
+            rp_data.set_content([])
 
-        return response_data
+        return rp_data
+    
+    def questionsIncompletedFromUser(self, token: Optional[str], username: str) -> ResponseData:
+        rp_data: ResponseData = ResponseData()
+        
+        rp: requests.Response = requests.get(
+            self.__base_url() + f'/questions/{username}/incompleted',
+            headers={'Authorization': f'Bearer {token}', self.__apikey_header: self.__apikey_secret}
+        )
+        
+        rp_data.set_successful(rp.ok)
+        
+        if rp_data.is_successful():
+            rp_data.set_content(rp.json())
+        else:
+            rp_data.add_message(rp.content.decode('ascii'))
+            rp_data.set_content([])
+        
+        return rp_data
+
+    def questionsCompletedFromUser(self, token: Optional[str], username: str) -> ResponseData:
+        rp_data: ResponseData = ResponseData()
+        
+        rp: requests.Response = requests.get(
+            self.__base_url() + f'/questions/{username}/completed',
+            headers={'Authorization': f'Bearer {token}', self.__apikey_header: self.__apikey_secret}
+        )
+        
+        rp_data.set_successful(rp.ok)
+        
+        if rp_data.is_successful():
+            rp_data.set_content(rp.json())
+        else:
+            rp_data.add_message(rp.content.decode('ascii'))
+            rp_data.set_content([])
+        
+        return rp_data
+
+        if rp_data.is_successful():
+            rp_data.set_content(rp.json())
+        else:
+            rp_data.add_message(rp.content.decode('ascii'))
+            rp_data.set_content([])
+        
+        return rp_data
+
+
+    def userStatistics(self, token: Optional[str], username: str) -> ResponseData:
+        rp_data: ResponseData = ResponseData()
+        rp: requests.Response = requests.get(
+            self.__base_url() + f'/statistics/{username}',
+            headers={'Authorization': f'Bearer {token}', self.__apikey_header: self.__apikey_secret}
+        )
+        rp_data.set_successful(rp.ok)
+        
+        if rp_data.is_successful():
+            rp_data.set_content(rp.json())
+        else:
+            rp_data.add_message(rp.content.decode('ascii'))
+            rp_data.set_content([])
+        
+        return rp_data
+
+    def questionStatistics(self, token: Optional[str]) -> ResponseData:
+        rp_data: ResponseData = ResponseData()
+        rp: requests.Response = requests.get(
+            self.__base_url() + f'/statistics/questions',
+            headers={'Authorization': f'Bearer {token}', self.__apikey_header: self.__apikey_secret}
+        )
+        rp_data.set_successful(rp.ok)
+        
+        if rp_data.is_successful():
+            rp_data.set_content(rp.json())
+        else:
+            rp_data.add_message(rp.content.decode('ascii'))
+            rp_data.set_content([])
+        
+        return rp_data
+
+    def usersStatistics(self, token: Optional[str]) -> ResponseData:
+        rp_data: ResponseData = ResponseData()
+        rp: requests.Response = requests.get(
+            self.__base_url() + f'/statistics/users',
+            headers={'Authorization': f'Bearer {token}', self.__apikey_header: self.__apikey_secret}
+        )
+        rp_data.set_successful(rp.ok)
+        
+        if rp_data.is_successful():
+            rp_data.set_content(rp.json())
+        else:
+            rp_data.add_message(rp.content.decode('ascii'))
+            rp_data.set_content([])
+        
+        return rp_data

@@ -6,14 +6,33 @@
             {% block displaycontent %}
             <form action="/sQuestions/Completed/Display" method="post">
                 <dl>
-                    <h2>{{ title }}</h2>
-                    <p>Question description</p>
+                    <h2>{{question['title']}}</h2>
+                    <p>{{question['desc']}}</p>
                     <h4>Choices:</h4>
                     <dd>
-                        <input type="radio" id="c_1" name="choices">Choice 1<br>
-                        <input type="radio" id="c_2" name="choices">Choice 2<br>
-                        <input type="radio" id="c_3" name="choices">Choice 3<br>
-                        <input type="radio" id="c_4" name="choices">Choice 4<br><br>
+                        {% if answer['id'] == 1 %}
+                        <input type="radio" name="choices" value="c_1" checked>{{question['c_1']}}<br>
+                        {% else %}
+                        <input type="radio" name="choices" value="c_1" disabled>{{question['c_1']}}<br>
+                        {% endif %}
+
+                        {% if answer['id'] == 2 %}
+                        <input type="radio" name="choices" value="c_2" checked>{{question['c_2']}}<br>
+                        {% else %}
+                        <input type="radio" name="choices" value="c_2" disabled>{{question['c_2']}}<br>
+                        {% endif %}
+
+                        {% if answer['id'] == 3 %}
+                        <input type="radio" name="choices" value="c_3" checked>{{question['c_3']}}<br>
+                        {% else %}
+                        <input type="radio" name="choices" value="c_3" disabled>{{question['c_3']}}<br>
+                        {% endif %}
+
+                        {% if answer['id'] == 4 %}
+                        <input type="radio" name="choices" value="c_4" checked>{{question['c_4']}}<br>
+                        {% else %}
+                        <input type="radio" name="choices" value="c_4" disabled>{{question['c_4']}}<br>
+                        {% endif %}
                     </dd>
                     <p><strong>Puntuation</strong> 1</p>
                 </dl>

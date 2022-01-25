@@ -31,6 +31,23 @@ paths:
                 type: string
       tags:
         - server
+
+  /answers:
+    get:
+      summary: All answers
+      operationId: dms2122backend.presentation.rest.answer.allAnswers
+      responses:
+        '200':
+          description: The list
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/AnswersAllList'
+      tags:
+        - questions
+      security:
+        - api_key: []
+
   /answers/{qid}:
     get:
       summary: Returns all answers from a particular question
@@ -336,6 +353,136 @@ paths:
       security:
         - api_key: []
 
+  /questions/{username}/incompleted:
+    get:
+      summary: All incompleted questions of a user
+      operationId: dms2122backend.presentation.rest.question.questionsIncompletedFromUser
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The questions
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/QuestionAllList'
+        '400':
+          description: Request error
+          content:
+            'text/plain':
+              schema:
+                type: string
+      tags:
+        - questions
+      security:
+        - api_key: []
+  /questions/{username}/completed:
+    get:
+      summary: All incompleted questions of a user
+      operationId: dms2122backend.presentation.rest.question.questionsCompletedFromUser
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The questions
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/AnswersAllList'
+        '400':
+          description: Request error
+          content:
+            'text/plain':
+              schema:
+                type: string
+      tags:
+        - questions
+      security:
+        - api_key: []
+
+  /statistics/users:
+    get:
+      summary: All users statistics
+      operationId: dms2122backend.presentation.rest.statistics.usersStatistics
+      responses:
+        '200':
+          description: The statistics
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/UserStatisticsList'
+        '400':
+          description: Request error
+          content:
+            'text/plain':
+              schema:
+                type: string
+      tags:
+        - questions
+        - answers
+      security:
+        - api_key: []
+
+  /statistics/{username}:
+    get:
+      summary: User statistics
+      operationId: dms2122backend.presentation.rest.statistics.userStatistics
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The statistics
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/UserStatistics'
+        '400':
+          description: Request error
+          content:
+            'text/plain':
+              schema:
+                type: string
+      tags:
+        - questions
+        - answers
+      security:
+        - api_key: []
+
+  /statistics/questions:
+    get:
+      summary: Quest statistics
+      operationId: dms2122backend.presentation.rest.statistics.questionsStatistics
+      responses:
+        '200':
+          description: Question statistics
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/QuestionStatistics'
+        '400':
+          description: Request error
+          content:
+            'text/plain':
+              schema:
+                type: string
+      tags:
+        - questions
+        - answers
+      security:
+        - api_key: []
+
 
 
 components:
@@ -474,7 +621,7 @@ components:
           type: number
         penalization:
           type: number
-        answer_result:
+        result:
           type: number
       required:
         - qid
@@ -491,6 +638,59 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/CompletedQuestion'
+
+    UserStatistics:
+      type: object
+      properties:
+        nAnswers:
+          type: integer
+        uScore:
+          type: number
+        scoreCompleted:
+          type: number
+        totalScore:
+          type: number
+        username:
+          type: string
+      required:
+        - nAnswers
+        - uScore
+        - scoreCompleted
+        - totalScore
+    UserStatisticsList:
+      type: array
+      items:
+        $ref: '#/components/schemas/UserStatistics'
+
+    QuestionStatistics:
+      type: object
+      properties:
+        n_answers:
+          type: integer
+        n_c1:
+          type: integer
+        n_c2:
+          type: integer
+        n_c3:
+          type: integer
+        n_c4:
+          type: integer             
+        avg:
+          type: number
+        title:
+          type: string
+      required:
+        - n_answers
+        - n_c1
+        - n_c2
+        - n_c3
+        - n_c4
+        - avg
+    QuestionStatisticsList:
+      type: array
+      items:
+        $ref: '#/components/schemas/QuestionStatistics'
+  
 
   securitySchemes:
     api_key:

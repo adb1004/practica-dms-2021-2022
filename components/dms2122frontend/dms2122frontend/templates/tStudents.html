@@ -2,6 +2,39 @@
 {% block contentsubheading %}Teachers panel - Students{% endblock %}
 {% block teachercontent %}
     {% block tstudentcontent %}
-    <p class="yellowbg">Under construction</p>
+    <table>
+        <tbody>
+            {% for i in statistics %}
+            <tr>
+                <td>User</td>
+                <td>{{i['username']}}</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>Number of answers</td>
+                <td>{{i['nAnswers']}}</td>
+            </tr>
+            <tr>
+                <td>Total Score</td>
+                <td>{{i['uScore']}}</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>Score / all questions</td>
+                <td>{{i['scoreCompleted']}}</td>
+            </tr>
+            <tr>
+                <td>Score / answered questions</td>
+                <td>{{i['totalScore']}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     {% endblock %}
 {% endblock %}

@@ -13,10 +13,4 @@ class Answer(Base):
     
     @staticmethod
     def _table_definition(metadata: MetaData) -> Table:
-         return Table(
-            'answers',
-            metadata,
-            Column('user', String(32), primary_key=True),
-            Column('id', Integer, nullable=False),
-            Column('qid', Integer, ForeignKey('questions.qid'), primary_key=True)
-        ) 
+        return Table('answers', metadata, Column('user', String(32), primary_key=True), Column('id', Integer, nullable=False), Column('qid', Integer, ForeignKey('questions.qid'), primary_key=True)) 

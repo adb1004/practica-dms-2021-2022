@@ -1,5 +1,7 @@
 from dms2122backend.data.rest import AuthService
 from dms2122backend.data.db.results import Answer
+from dms2122backend.data.db.results import Question
+from dms2122backend.data.db.resultsets import Questions
 from dms2122backend.data.db import Schema 
 from dms2122backend.data.db.resultsets import Answers
 from typing import List, Dict, Optional
@@ -8,35 +10,55 @@ from sqlalchemy.orm.session import Session
 
 class LogicAnswer():
     @staticmethod
-    def create(auth_service: AuthService, token_info: Dict, session: Session, user: str, id: int, qid: int) -> Answer:
-        rp: ResponseData = auth_service.get_user_has_role(session.get('token'), token_info['user_token']['user'], "Student")
-        if rp.is_successful() == False:
-            raise NotValidOperation
+    def create(auth_service: AuthService, session: Session, user: str, id: int, qid: int, token_info: Dict) -> Answer:
         try:
             nAnswer: Answer = Answers.answer(session, user, id, qid)
-        except Exception as exception:
-            raise exception
+        except Exception as exception: raise exception
         return nAnswer
 
     @staticmethod
     def answerListFromUser(session: Session,user: str) -> List[Answer]:
-        return Answers.answerListFromUser(session, user)
+        try:
+            return Answers.answerListFromUser(session, user)
+        except Exception as exception: raise exception
 
     @staticmethod
     def answerListFromQuestion(session: Session,qid: int) -> List[Answer]:
-        return Answers.answerListFromQuestion(session, qid)
+        try:
+            return Answers.answerListFromQuestion(session, qid)
+        except Exception as exception: raise exception
 
     @staticmethod
     def questionHasAnswers(auth_service: AuthService, token_info: Dict,session: Session, qid: int) -> bool:
         rp: ResponseData = auth_service.get_user_has_role(session.get('token'), token_info['user_token']['user'], "Teacher")
         if rp.is_successful() == False:
             raise NotValidOperation
-        return Answers.questionHasAnswers(session,qid)
+        
+        try:
+            return Answers.questionHasAnswers(session,qid)
+        except Exception as exception: raise exception
 
     @staticmethod
     def answerFromUserToQuestion(session: Session ,user: str, id: int) -> Answer:
         try:
             answer: Answer = Answers.answerFromUserToQuestion(session,user,id)
-        except Exception as exception:
-            raise exception
+        except Exception as exception: raise exception
+        
         return answer
+
+    @staticmethod
+    def answerScore(session: Session, answer: Answer) -> float:
+        try:
+            q: Question = Questions.getQuestionFromId(session, answer.qid)
+            if q is None: return None
+
+            if q.c_right==answer.id:
+                return q.puntuation
+            else: return q.penalization
+
+        except Exception as exception: raise exception
+
+    @staticmethod
+    def allAnswers(session: Session) -> List[Answer]:
+        query = session.query(Answer)
+        return query.all()

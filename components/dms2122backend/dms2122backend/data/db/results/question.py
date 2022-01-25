@@ -28,13 +28,7 @@ class Question(Base):
             'questions',
             metadata,
             Column('qid', Integer, autoincrement= 'auto', primary_key=True),
-            Column('title', String(64), nullable=False),
-            Column('desc', String(512), nullable=False),
-            Column('c_1', String(64), nullable=False),
-            Column('c_2', String(64), nullable=False),
-            Column('c_3', String(64), nullable=False),
-            Column('c_4', String(64), nullable=False),
-            Column('c_right', Integer, nullable=False),
-            Column('puntuation', Float(2,2), nullable=False),
-            Column('penalization', Float(2,2), nullable=False)
+            Column('title', String(64), nullable=False), Column('desc', String(512), nullable=False),
+            Column('c_1', String(64), nullable=False), Column('c_2', String(64), nullable=False), Column('c_3', String(64), nullable=False), Column('c_4', String(64), nullable=False),
+            Column('c_right', Integer, nullable=False), Column('puntuation', Float(2,2), nullable=False), Column('penalization', Float(2,2), nullable=False)
         )

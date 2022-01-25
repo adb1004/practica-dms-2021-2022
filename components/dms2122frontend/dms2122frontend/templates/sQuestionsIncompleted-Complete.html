@@ -1,23 +1,25 @@
 {% extends "student.html" %}
+{% from "macros/buttons.html" import button, submit_button %}
 {% block contentsubheading %}Student - Questions - Incompleted - Complete{% endblock %}
 {% block studentcontent %}
     {% block squestioncontent %}
         {% block squestionincompletedcontent %}
             {% block completecontent %}
-            <form action="/sQuestions/Incompleted/Display" method="post">
+            <form action="/sQuestions/incompleted/complete" method="post">
+                <input type="hidden" name="qid" value="{{ question['qid'] }}" />
                 <dl>
-                    <h2>{{ title }}</h2>
-                    <p>Question description</p>
+                    <h2>{{question['title']}}</h2>
+                    <p>{{question['desc']}}</p>
                     <h4>Choices:</h4>
                     <dd>
-                        <input type="radio" id="c_1" name="choices">Choice 1<br>
-                        <input type="radio" id="c_2" name="choices">Choice 2<br>
-                        <input type="radio" id="c_3" name="choices">Choice 3<br>
-                        <input type="radio" id="c_4" name="choices">Choice 4<br><br>
-                        <input type="button" value="Send">
+                        <input type="radio" id="c_1" value = "c_1" name="choices" required="required">{{question['c_1']}}<br>
+                        <input type="radio" id="c_2" value = "c_2" name="choices" required="required">{{question['c_2']}}<br>
+                        <input type="radio" id="c_3" value = "c_3" name="choices" required="required">{{question['c_3']}}<br>
+                        <input type="radio" id="c_4" value = "c_4" name="choices" required="required">{{question['c_4']}}<br><br>
+                        {{submit_button('redbg', 'Send')}}
                     </dd>
-                    <p><strong>Puntuation</strong> 1</p>
-                    <p><strong>Penalization</strong> -0.5</p>
+                    <p><strong>Puntuation</strong> {{question['puntuation']}}</p>
+                    <p><strong>Penalization</strong> {{question['penalization']}}</p>
                 </dl>
               <a href="{{afterSave}}">Back</a>
             </form>

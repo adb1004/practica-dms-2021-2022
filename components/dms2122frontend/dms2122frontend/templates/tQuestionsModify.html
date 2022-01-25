@@ -1,11 +1,12 @@
 {% extends "teacher.html" %}
+{% from "macros/buttons.html" import button, submit_button %}
 {% block contentsubheading %}Teacher - Questions - Modify{% endblock %}
 {% block teachercontent %}
     {% block tquestioncontent %}
         {% block tquestionmodifycontent %}
         <form action="/tQuestions/modify" method="post">
 
-            <input type="hidden" name="qid" value="{{ question['qid'] }}" />
+            <input type="hidden" name="qid" value="{{question['qid']}}" />
 
             <h3>Title</h3>
                 <input type="text" name="title" value= "{{question['title']}}"/>
@@ -23,7 +24,7 @@
             <h3>Penalization</h3>
                 <input type="number" name="penalization" value= "{{question['penalization']}}"  max="0" step="0.10"/>
             <br/><br/>
-            <a href="{{afterSave}}">Save Changes</a>
+            {{submit_button('redbg','Save Questions')}}
             <br/>
             <a href="/tQuestions">Cancel</a>
         </form>

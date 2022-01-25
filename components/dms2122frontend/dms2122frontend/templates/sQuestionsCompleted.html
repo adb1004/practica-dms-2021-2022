@@ -12,11 +12,11 @@
                     <th></th>
                     <th class="alignright"></th><th></th>
                 </tr>
-                {% for i in arrayCompleted %}
+                {% for i in questions %}
                     <tr class="highlightable">
                         <td class="alignleft">{{ i['title'] }}</td>
-                        <td class="aligncenter">{{ i['puntuation'] }}</td>
-                        <td class="alignright">{{ button('redbg', '/sQuestions/completed/display?afterSave=/sQuestions&title=' + i['title'], 'Display') }}</td>                        
+                        <td class="aligncenter">{{ i['result'] }}</td>
+                        <td class="alignright">{{ button('redbg', '/sQuestions/completed/display?afterSave=/sQuestions&qid=' + i['qid']|string, 'Display') }}</td>                        
                     </tr>
                 {% endfor %}
             </tbody>

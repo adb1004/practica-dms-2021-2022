@@ -35,9 +35,11 @@ class QuestionsService():
     def list_questions(schema: Schema) -> List[Dict]:
         o: List[Dict] = []
         session: Session = schema.new_session()
-        questions: List[Question] = LogicQuestion.questionsList(session)
-        for q in questions:
-            o.append({'qid': q.qid, 'title': q.title, 'desc': q.desc, 'c_1': q.c_1, 'c_2': q.c_2, 'c_3': q.c_3, 'c_4': q.c_4, 'c_right': q.c_right, 'puntuation': q.puntuation, 'penalization': q.penalization})
+        questions: List[List] = LogicQuestion.questionsList(session)
+        for particularQuestion in questions:
+            q: Question = particularQuestion[0]
+            completed: int = particularQuestion[1]
+            o.append({'qid': q.qid, 'title': q.title, 'desc': q.desc, 'c_1': q.c_1, 'c_2': q.c_2, 'c_3': q.c_3, 'c_4': q.c_4, 'c_right': q.c_right, 'puntuation': q.puntuation, 'penalization': q.penalization, 'completed' : completed})
         schema.remove_session()
         return o
 
@@ -68,7 +70,7 @@ class QuestionsService():
         session: Session = schema.new_session()
         o: Dict = {}
         try:
-            nQuestion = LogicQuestion.modify(auth_service, token_info, session, qid, desc, c_1, c_2, c_3, c_4, c_right, puntuation, penalization)
+            nQuestion = LogicQuestion.modify(auth_service, token_info, session, qid, title, desc, c_1, c_2, c_3, c_4, c_right, puntuation, penalization)
             o['qid'] = nQuestion.qid
             o['title'] = nQuestion.title
             o['desc'] = nQuestion.desc
@@ -83,4 +85,32 @@ class QuestionsService():
             raise exception
         finally:
             schema.remove_session()
+        return o
+
+    @staticmethod
+    def questionsIncompletedFromUser(schema: Schema, user: str) -> List[Dict]:
+        o: List[Dict] = []
+        session: Session = schema.new_session()
+
+        try:
+            questions: List[Question] = LogicQuestion.questionsIncompletedFromUser(session, user)
+            for q in questions:
+                o.append({'qid': q.qid, 'title': q.title, 'desc': q.desc, 'c_1': q.c_1, 'c_2': q.c_2, 'c_3': q.c_3, 'c_4': q.c_4, 'c_right': q.c_right, 'puntuation': q.puntuation, 'penalization': q.penalization})
+        except Exception as exception: raise exception
+        finally: schema.remove_session()
+        return o
+
+    @staticmethod
+    def questionsCompletedFromUser(schema: Schema, user: str) -> List[Dict]:
+        o: List[Dict] = []
+        session: Session = schema.new_session()
+        
+        try:
+            questions: List[List] = LogicQuestion.questionsCompletedFromUser(session, user)
+            for qLs in questions:
+                q: Question = qLs[0]
+                puntuation: float = qLs[1] 
+                o.append({'qid': q.qid, 'title': q.title, 'desc': q.desc, 'c_1': q.c_1, 'c_2': q.c_2, 'c_3': q.c_3, 'c_4': q.c_4, 'c_right': q.c_right, 'puntuation': q.puntuation, 'penalization': q.penalization, 'result': puntuation})
+        except Exception as exception: raise exception
+        finally: schema.remove_session()
         return o

@@ -10,5 +10,4 @@ popd
 
 rm -R "${TEMP_DIR}"
 
-#create questions for testing purposes
 dms2122backend-createquestions

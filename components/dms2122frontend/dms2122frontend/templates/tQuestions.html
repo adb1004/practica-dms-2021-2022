@@ -8,9 +8,11 @@
     <h4>Questions:</h4>
     {% for i in arrayQuestions %}
         <tr>
-            <td>{{ i['title'] }}</td>
-            <td>{{ button('redbg', '/tQuestions/modify?afterSave=/home&qid=' + i['qid']|string, 'Modify') }}</td>
-            <td>{{ button('redbg', '/tQuestions/display?afterSave=/tQuestions&qid=' + i['qid']|string, 'Display') }}</td>
+            <td>{{i['title']}}</td>
+            <td>{{button('redbg', '/tQuestions/display?afterSave=/tQuestions&qid=' + i['qid']|string, 'Display')}}</td>
+            {%if i['completed'] == 0 %}
+                <td>{{button('redbg', '/tQuestions/modify?afterSave=/home&qid=' + i['qid']|string, 'Modify')}}</td>
+            {%else%}<td></td>{%endif%}
             <br/>
         </tr>
     {% endfor %}

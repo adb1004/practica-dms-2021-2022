@@ -2,13 +2,14 @@
 """
 
 from typing import Text, Union
-from flask import redirect, url_for, session, render_template, request
+from flask import redirect, url_for, session, flash, render_template, request
 from werkzeug.wrappers import Response
 from dms2122common.data import Role
 from dms2122frontend.data.rest.authservice import AuthService
 from .webauth import WebAuth
 from .webquestion import WebQuestion
 from .webanswer import WebAnswer
+from .webstatistics import WebStatistics
 from dms2122frontend.data.rest.backendservice import BackendService
 
 
@@ -37,7 +38,7 @@ class TeacherEndpoints():
         return render_template('teacher.html', name=name, roles=session['roles'])
 
     @staticmethod
-    def get_tStudents(auth_service: AuthService) -> Union[Response, Text]:
+    def get_tStudents(auth_service: AuthService, backend_service: BackendService) -> Union[Response, Text]:
         # Redirect the user if it is not login or if he has not the right role
         if not WebAuth.test_token(auth_service):
             return redirect(url_for('get_login'))
@@ -45,7 +46,7 @@ class TeacherEndpoints():
             return redirect(url_for('get_home'))
 
         name = session['user']
-        return render_template('tStudents.html', name=name, roles=session['roles'])
+        return render_template('tStudents.html', name=name, roles=session['roles'], statistics=WebStatistics.usersStatistics(backend_service))
     
     @staticmethod
     def get_tQuestions(auth_service: AuthService, backend_service: BackendService) -> Union[Response, Text]:
@@ -78,7 +79,22 @@ class TeacherEndpoints():
         if Role.Teacher.name not in session['roles']:
             return redirect(url_for('get_home'))
 
-        afterSave = request.args.get('afterSave', default='/tQuestions')
+        #afterSave = request.args.get('afterSave', default='/tQuestions')
+        if not request.form['puntuation'] or not request.form['penalization'] or not request.form['c_right']:
+            flash('An argument has not been found', 'error')
+            return redirect(url_for('get_tQuestionsCreate'))
+
+        nQuestion = WebQuestion.create_question(backend_service, request.form['title'], request.form['desc'], request.form['c_1'], request.form['c_2'], request.form['c_3'], request.form['c_4'], int(request.form['c_right']), float(request.form['puntuation']), float(request.form['penalization']))
+        
+        if not nQuestion:
+            return redirect(url_for('get_tQuestionsCreate'))
+        
+        #afterSave = request.form['afterSave']
+        afterSave = afterSave = url_for('get_tQuestions')
+        
+        if not afterSave:
+            afterSave = url_for('get_tQuestions')
+
         return redirect(afterSave)
     
     @staticmethod
@@ -102,9 +118,13 @@ class TeacherEndpoints():
         if Role.Teacher.name not in session['roles']:
             return redirect(url_for('get_home'))
         
+        if not request.form['puntuation'] or not request.form['c_right'] or not request.form['penalization']:
+            flash('An argument is missing', 'error')
+            return redirect(url_for('get_tQuestions'))
+
         successful: bool = True
 
-        successful &= WebQuestion.modify_question(backend_service, request.form['qid'], request.form['title'], request.form['desc'], request.form['c_1'], request.form['c_2'], request.form['c_3'], request.form['c_4'], request.form['c_right'], request.form['puntuation'], request.form['penalization'])
+        successful &= WebQuestion.modify_question(backend_service, int(request.form['qid']), request.form['title'], request.form['desc'], request.form['c_1'], request.form['c_2'], request.form['c_3'], request.form['c_4'], int(request.form['c_right']), float(request.form['puntuation']), float(request.form['penalization']))
         
         afterSave = request.args.get('afterSave', default='/tQuestions')
         return redirect(afterSave)
@@ -131,6 +151,6 @@ class TeacherEndpoints():
             return redirect(url_for('get_home'))
         
         name = session['user']
-        return render_template('tQuestionsProgression.html', name=name, roles=session['roles'])
+        return render_template('tQuestionsProgression.html', name=name, roles=session['roles'], statistics = WebStats.questionStatistics(backend_service))
         
         
