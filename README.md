@@ -5,6 +5,10 @@
 
 The goal of this project is to implement a basic online evaluation appliance deployed across several interconnected services.
 
+## MANUALES Y MEMORIA
+
+Los manuales requeridos se encuentran en este readme y la memoria se encuentra dividida entre los readme del frontend y del backend.
+
 ## Authors
 
 - [Iván Cortés Aliende](https://github.com/ica1006)
