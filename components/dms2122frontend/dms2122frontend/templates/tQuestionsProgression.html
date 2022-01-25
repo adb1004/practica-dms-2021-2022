@@ -1,20 +1,21 @@
 {% extends "teacher.html" %}
+{% from "macros/buttons.html" import button, submit_button %}
 {% block contentsubheading %}Teacher - Questions - Progression{% endblock %}
-{% block tquestioncontent %}
-    {% block progressioncontent %}
+{% block teachercontent %}
+    {% block questionprogressioncontent %}
     <table>
         <tbody>
             <tr>
                 <td>Title</td>
-                <td>{{statics['title']}}</td>
+                <td>{{statistics['title']}}</td>
             </tr>
             <tr>
                 <td>Answers</td>
-                <td>{{statics['n_answers']}}</td>
+                <td>{{statistics['n_answers']}}</td>
             </tr>
             <tr>
                 <td>AVG</td>
-                <td>{{statics['avg']}}</td>
+                <td>{{statistics['avg']}}</td>
             </tr>
             <tr>
                 <td>&nbsp;</td>
@@ -22,21 +23,21 @@
             </tr>
             <tr>
                 <td>Choice 1</td>
-                <td>{{statics['n_c1']}}</td>
+                <td>{{statistics['n_c1']}}</td>
             </tr>
             <tr>
                 <td>Choice 2</td>
-                <td>{{statics['n_c2']}}</td>
+                <td>{{statistics['n_c2']}}</td>
             </tr>
             <tr>
                 <td>Choice 3</td>
-                <td>{{statics['n_c3']}}</td>
+                <td>{{statistics['n_c3']}}</td>
             </tr>
             <tr>
                 <td>Choice 4</td>
-                <td>{{statics['n_c4']}}</td>
+                <td>{{statistics['n_c4']}}</td>
             </tr>
         </tbody>
     </table>
     {% endblock %}
-{% endblock %}
+    {% endblock %}

@@ -122,7 +122,7 @@ def get_tQuestionsDisplay():
     return TeacherEndpoints.get_tQuestionsDisplay(auth_service, backend_service)
 
 @app.route("/tQuestions/progression", methods=['GET'])
-def get_teacher_questions_stats():
+def get_tQuestionsProgression():
     return TeacherEndpoints.get_tQuestionsProgression(auth_service,backend_service)
 
 # Admin

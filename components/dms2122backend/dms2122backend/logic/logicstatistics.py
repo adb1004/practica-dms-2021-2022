@@ -84,7 +84,7 @@ class LogicStatistics():
             v: List = []
             
             for q in questions:
-                q2 : Question = ques[0]
+                q2 : Question = q[0]
                 answers: List[Answer] = LogicAnswer.answerListFromQuestion(session, q2.qid)
                 n_answers = len(answers)
                 d: Dict={}

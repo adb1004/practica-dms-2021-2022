@@ -156,6 +156,6 @@ class TeacherEndpoints():
             return redirect(url_for('get_home'))
         
         name = session['user']
-        return render_template('tQuestionsProgression.html', name=name, roles=session['roles'], statistics = WebStats.questionStatistics(backend_service))
+        return render_template('tQuestionsProgression.html', name=name, roles=session['roles'], statistics = WebStatistics.questionStatistics(backend_service))
         
         

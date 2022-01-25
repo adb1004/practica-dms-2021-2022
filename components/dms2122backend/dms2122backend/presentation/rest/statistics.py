@@ -25,6 +25,6 @@ def usersStatistics() -> Tuple[Union[List[Dict], str], Optional[int]]:
 def questionsStatistics() -> Tuple[Union[List[Dict], str], Optional[int]]:
     with current_app.app_context():
         try:
-            sta: List[Dict]  = StatsServices.questionsStatistics(current_app.db)
+            sta: List[Dict]  = StatisticsServices.questionsStatistics(current_app.db)
         except ValueError: return ('An argument is missing', HTTPStatus.BAD_REQUEST.value)        
     return (sta, HTTPStatus.OK.value)

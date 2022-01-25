@@ -5,9 +5,55 @@
 
 The goal of this project is to implement a basic online evaluation appliance deployed across several interconnected services.
 
+## Authors
+
+- [Iván Cortés Aliende](https://github.com/ica1006)
+- [Alberto Diez Busto](https://github.com/adb1004)
+- [Steven Paul Alba Alba](https://github.com/saa1002)
+
+## Instalation manual
+
+Necesitamos descargar el repositorio. Esto se puede hacer desde la web de github o con el comando git clone:
+```bash
+git clone https://github.com/adb1004/practica-dms-2021-2022
+```
+Debemos tener en cuenta en qué directorio lo guardaremos, ya que será desde donde ejecutemos el programa.
+
+## Ejecution manual
+
+- Navegar hasta la carpeta donde hicimos el git clone con el comando cd
+- Si es la primera vez que lo ejecutamos, deberemos utilizat el comando:
+```bash
+docker-compose -f docker/config/dev.yml build
+```
+- Para lanzar los 3 contenedores de docker utilizaremos el comando:
+```bash
+docker-compose -f docker/config/dev.yml up -d
+```
+- Cuando queramos parar la ejecución y eliminar los contenedores, utilizaremos el comendo:
+```bash
+docker-compose -f docker/config/dev.yml rm -sfv 
+```
+- Podremos ir mirando los logs en tiempo real de cómo se van lanzando con el comando:
+```bash
+docker logs -f (dms2122backend/dms2122frontend/dms2122auth)
+```
+
+## Utilization manual
+Una vez lanzado el sistema, podremos ver a que dirección debemos conectarnos desde el navegador mirando el log de dms2122frontend. Si todo ha ido como debería, esa dirección debería ser http://172.10.1.30:8080/login
+Las credenciales del administrador por defecto son admin:admin. Con estas credenciales podremos crear nuevos usuarios, asignar roles a estos y editarlos. Los roles que pueden tener los usuarios son administradores, profesores o estudiantes.
+
+### Student
+Los estudiantes pueden ver sus preguntas contestadas, ver qué preguntas les quedan por contestar, ver su progresión dentro del curso y contestar a las preguntas pendientes.
+
+### Teacher
+Los profesores pueden crear preguntas, editar preguntas (si no han sido ya respondidas), ver una demo de las preguntas, ver estadísticas de sus alumnos y ver estadísticas de las preguntas que este ha creado
+
+
 ## Components
 
 The source code of the components is available under the `components` direcotry.
+
 
 ### Services
 
